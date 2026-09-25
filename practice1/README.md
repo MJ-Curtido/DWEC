@@ -1,0 +1,2 @@
+I decided to organise my code with a 'pages' folder that contains every page in the project in different folders with their respective js, html and css files. We have as well a 'global.css' file with global styles for the project. And we have a 'catalog.js' file in 'assets with the initial catalog of products.
+In GitHub I've created 3 branches: master (as Production, what the client see), develop (where we check the project deploid) and feature (where we make every changes).
