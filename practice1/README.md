@@ -1,2 +1,3 @@
-I decided to organise my code with a 'pages' folder that contains every page in the project in different folders with their respective js, html and css files. We have as well a 'global.css' file with global styles for the project. And we have a 'catalog.js' file in 'assets with the initial catalog of products.
-In GitHub I've created 3 branches: master (as Production, what the client see), develop (where we check the project deploid) and feature (where we make every changes).
+He decidido organizar mi código con el objeto que contiene todo el catálogo en '/src/assets/catalog.js', y ahí están las funciones que modifican el catálogo (como las de precio) a modo de peticiones a la bbdd y luego el menú de opciones está en '/src/main.js' donde está toda la lógica de lo que se verá por consola.
+
+En GitHub he creado 3 ramas principales para este proyecto, por un lado está 'feature/practice1' que sería la rama donde desarrollo esta práctica, luego con los cambios realizados se haría un merge con 'develop' (otra rama intermedia) y cuando se han comprobado todos los cambios correctamente, se haría un merge con 'main' (la rama principal).
