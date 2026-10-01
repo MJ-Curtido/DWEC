@@ -13,7 +13,7 @@
  * @type {Product[]}
  */
 
-export const INITIAL_CATALOG = [
+export const catalog = [
 	{
 		id: 0,
 		name: 'Hollow Knight',
@@ -150,3 +150,56 @@ export const INITIAL_CATALOG = [
 		stock: 32,
 	},
 ];
+
+const STATUS_MOD = {
+	'nuevo-precintado': 1.25, //+25%
+	'usado-como-nuevo': 1, //0%
+	'usado-caja-danada': 0.85, //-15%
+	'solo-cartucho': 0.7, //-30%
+};
+
+const STOCK_DISCOUNT = {
+	'one-stock': 1, //0%
+	'low-stock': 1.05, //+5%
+	'plenty-stock': 1.1, //+10%
+};
+
+export function priceModStatus(id = null) {
+	if (id) {
+		const game = catalog.find((game) => game.id === id) || null;
+
+		if (game) game.basePrice = game.basePrice * STATUS_MOD[game.status];
+
+		return game;
+	} else {
+		catalog = catalog.reduce((acc, game) => {
+			acc.push({ ...game, basePrice: game.basePrice * STATUS_MOD[game.status] });
+		}, []);
+	}
+}
+
+export function priceDiscountStock(id = null) {
+	if (id) {
+		const game = catalog.find((game) => game.id === id) || null;
+
+		if (game) {
+			if (game.stock === 1) price = game.basePrice * STOCK_DISCOUNT['one-stock'];
+			else if (game.stock >= 2 && game.stock <= 3) price = game.basePrice * STOCK_DISCOUNT['low-stock'];
+			else price = game.basePrice * STOCK_DISCOUNT['plenty-stock'];
+		}
+
+		return game;
+	} else {
+		catalog = catalog.reduce((acc, game) => {
+			acc.push({
+				...game,
+				basePrice:
+					game.stock === 1
+						? game.basePrice * STATUS_MOD[game.status]
+						: game.stock >= 2 && game.stock <= 3
+							? game.basePrice * STOCK_DISCOUNT['low-stock']
+							: game.basePrice * STOCK_DISCOUNT['plenty-stock'],
+			});
+		}, []);
+	}
+}
