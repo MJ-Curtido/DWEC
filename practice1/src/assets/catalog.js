@@ -172,7 +172,7 @@ export function priceModStatus(id = null) {
 
 		return game;
 	} else {
-		catalog = catalog.reduce((acc, game) => {
+		return catalog.reduce((acc, game) => {
 			acc.push({ ...game, basePrice: game.basePrice * STATUS_MOD[game.status] });
 		}, []);
 	}
@@ -190,7 +190,7 @@ export function priceDiscountStock(id = null) {
 
 		return game;
 	} else {
-		catalog = catalog.reduce((acc, game) => {
+		return catalog.reduce((acc, game) => {
 			acc.push({
 				...game,
 				basePrice:
