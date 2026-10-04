@@ -5,6 +5,7 @@
  * @property {string} platform;
  * @property {string} type;
  * @property {number} basePrice;
+ * @property {number} sellingPrice;
  * @property {'nuevo-precintado' | 'usado-como-nuevo' | 'usado-caja-danada' | 'solo-cartucho'} status;
  * @property {number} stock;
  */
@@ -30,7 +31,7 @@ export const catalog = [
 		type: 'RPG',
 		basePrice: 150,
 		status: 'nuevo-precintado',
-		stock: 1,
+		stock: 0,
 	},
 	{
 		id: 2,
@@ -84,7 +85,7 @@ export const catalog = [
 		type: 'Soccer',
 		basePrice: 30,
 		status: 'usado-como-nuevo',
-		stock: 2,
+		stock: 1,
 	},
 	{
 		id: 8,
@@ -93,7 +94,7 @@ export const catalog = [
 		type: 'RPG',
 		basePrice: 60,
 		status: 'nuevo-precintado',
-		stock: 3,
+		stock: 2,
 	},
 	{
 		id: 9,
@@ -129,7 +130,7 @@ export const catalog = [
 		type: 'Minigames',
 		basePrice: 14,
 		status: 'solo-cartucho',
-		stock: 40,
+		stock: 3,
 	},
 	{
 		id: 13,
@@ -138,7 +139,7 @@ export const catalog = [
 		type: 'Driving',
 		basePrice: 25,
 		status: 'solo-cartucho',
-		stock: 15,
+		stock: 0,
 	},
 	{
 		id: 14,
@@ -158,48 +159,36 @@ const STATUS_MOD = {
 	'solo-cartucho': 0.7, //-30%
 };
 
-const STOCK_DISCOUNT = {
+const UNITS_DISCOUNT = {
 	'one-stock': 1, //0%
 	'low-stock': 1.05, //+5%
 	'plenty-stock': 1.1, //+10%
 };
 
-export function priceModStatus(id = null) {
-	if (id) {
-		const game = catalog.find((game) => game.id === id) || null;
-
-		if (game) game.basePrice = game.basePrice * STATUS_MOD[game.status];
-
-		return game;
-	} else {
-		return catalog.reduce((acc, game) => {
-			acc.push({ ...game, basePrice: game.basePrice * STATUS_MOD[game.status] });
-		}, []);
-	}
+//TODO: Change function updating catalog
+export function priceModStatus() {
+	return catalog.reduce((acc, game) => {
+		acc.push({ ...game, sellingPrice: game.basePrice * STATUS_MOD[game.status] });
+	}, []);
 }
 
-export function priceDiscountStock(id = null) {
-	if (id) {
-		const game = catalog.find((game) => game.id === id) || null;
+//TODO: Update game stock if there is a purchase
+export function sellProduct(id, unit) {
+	const game = catalog.find((game) => game.id === id);
 
-		if (game) {
-			if (game.stock === 1) price = game.basePrice * STOCK_DISCOUNT['one-stock'];
-			else if (game.stock >= 2 && game.stock <= 3) price = game.basePrice * STOCK_DISCOUNT['low-stock'];
-			else price = game.basePrice * STOCK_DISCOUNT['plenty-stock'];
-		}
+	if (game) {
+		const updatedGame = {
+			...game,
+			sellingPrice:
+				unit === 1
+					? game.sellingPrice * UNITS_DISCOUNT['one-stock']
+					: unit >= 2 && unit <= 3
+						? game.sellingPrice * UNITS_DISCOUNT['low-stock']
+						: game.sellingPrice * UNITS_DISCOUNT['plenty-stock'],
+		};
 
-		return game;
-	} else {
-		return catalog.reduce((acc, game) => {
-			acc.push({
-				...game,
-				basePrice:
-					game.stock === 1
-						? game.basePrice * STATUS_MOD[game.status]
-						: game.stock >= 2 && game.stock <= 3
-							? game.basePrice * STOCK_DISCOUNT['low-stock']
-							: game.basePrice * STOCK_DISCOUNT['plenty-stock'],
-			});
-		}, []);
+		return updatedGame;
 	}
+
+	return null;
 }
