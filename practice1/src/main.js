@@ -1,5 +1,5 @@
 import { addStock, getCatalog, sellGame } from './assets/catalog';
-import { searchGame, allCatalog, catalogByType, catalogLowStock } from './functions';
+import { searchGame, allCatalog, catalogByType, catalogLowStock, salesReport } from './functions';
 
 let catalog = getCatalog();
 let sales = [];
@@ -129,7 +129,7 @@ do {
             \t2. Search game.
             \t3. Record a sale.
             \t4. Add stock.
-            \t5. Sales record.
+            \t5. Sales report.
             \t6. Leave.\n
         `),
 	);
@@ -149,6 +149,10 @@ do {
 
 		case 4:
 			showGamesStock('add-stock');
+			break;
+
+		case 5:
+			salesReport(catalog, sales);
 			break;
 
 		default:

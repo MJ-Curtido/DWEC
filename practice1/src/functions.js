@@ -42,4 +42,24 @@ const searchGame = (catalog, search) => {
 	}
 };
 
-export { allCatalog, catalogByType, catalogLowStock, searchGame };
+const salesReport = (catalog, sales) => {
+	const totalAmount = sales.reduce((acc, sale) => {
+		return acc + sale.sellingPrice;
+	}, 0);
+
+	const stockValue = catalog.reduce((acc, game) => {
+		return acc + game.basePrice * game.stock;
+	}, 0);
+
+	const lowStock = catalog.some((game) => game.stock <= 3);
+
+	console.log('\n-- Sales Report --\n');
+	console.log(`Total amount billed: ${totalAmount}€`);
+	console.log(`Stock value: ${stockValue}€`);
+
+	if (lowStock) {
+		console.log('There are some articles with low stock!');
+	}
+};
+
+export { allCatalog, catalogByType, catalogLowStock, searchGame, salesReport };
