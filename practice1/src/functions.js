@@ -1,4 +1,4 @@
-const showAllCatalog = (catalog) => {
+const allCatalog = (catalog) => {
 	console.log('\n-- Catalog --');
 
 	catalog.map((game) => {
@@ -8,7 +8,7 @@ const showAllCatalog = (catalog) => {
 	});
 };
 
-const showByType = (catalog, type) => {
+const catalogByType = (catalog, type) => {
 	console.log('\n-- Catalog filtered by Type --');
 
 	catalog
@@ -20,7 +20,7 @@ const showByType = (catalog, type) => {
 		});
 };
 
-const showLowStock = (catalog) => {
+const catalogLowStock = (catalog) => {
 	console.log('\n-- Catalog with Low Stock --');
 
 	catalog
@@ -30,4 +30,16 @@ const showLowStock = (catalog) => {
 		});
 };
 
-export { showAllCatalog, showByType, showLowStock };
+const searchGame = (catalog, search) => {
+	const game = catalog.find((game) => game.id === Number(search) || game.name.toLowerCase().includes(search.toLowerCase()));
+
+	if (game) {
+		console.log(
+			`${game.name} - ${game.platform} - ${game.status} - ${game.type} --> ${game.basePrice}€${game.stock < 3 ? '\tLow Stock!!!' : ''}`,
+		);
+	} else {
+		console.log('Game not found.');
+	}
+};
+
+export { allCatalog, catalogByType, catalogLowStock, searchGame };

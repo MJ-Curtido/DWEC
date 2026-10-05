@@ -1,15 +1,13 @@
 import { getCatalog } from './assets/catalog';
-import { showAllCatalog, showByType, showLowStock } from './functions';
-import readline from 'readline';
+import { searchGame, allCatalog, catalogByType, catalogLowStock } from './functions';
 
 const catalog = getCatalog();
 
 const showTypeSubMenu = () => {
 	let option = 0;
 
-	do {
-		option = Number(
-			prompt(`
+	option = Number(
+		prompt(`
                 -- Type --
                 \t1. Platform.
                 \t2. RPG.
@@ -17,72 +15,77 @@ const showTypeSubMenu = () => {
                 \t4. Open World.
                 \t5. Leave.\n
             `),
-		);
+	);
 
-		switch (option) {
-			case 1:
-				showByType(catalog, 'Platform');
-				break;
+	switch (option) {
+		case 1:
+			catalogByType(catalog, 'Platform');
+			break;
 
-			case 2:
-				showByType(catalog, 'RPG');
-				break;
+		case 2:
+			catalogByType(catalog, 'RPG');
+			break;
 
-			case 3:
-				showByType(catalog, 'Driving');
-				break;
+		case 3:
+			catalogByType(catalog, 'Driving');
+			break;
 
-			case 4:
-				showByType(catalog, 'Open World');
-				break;
+		case 4:
+			catalogByType(catalog, 'Open World');
+			break;
 
-			case 5:
-				console.log('\n\n\n\n\n\n\n');
-				break;
+		case 5:
+			console.log('\n\n\n\n\n\n\n');
+			break;
 
-			default:
-				console.log('Invalid option.');
-				break;
-		}
-	} while (option !== 5);
+		default:
+			console.log('Invalid option.');
+			break;
+	}
 };
 
 const showCatalogSubmenu = () => {
 	let option = 0;
 
-	do {
-		option = Number(
-			prompt(`
+	option = Number(
+		prompt(`
                 -- Menu --
                 \t1. Show all the catalog.
                 \t2. Filtered by type.
                 \t3. Only products with low stock.
                 \t4. Leave.\n
             `),
-		);
+	);
 
-		switch (option) {
-			case 1:
-				showAllCatalog(catalog);
-				break;
+	switch (option) {
+		case 1:
+			allCatalog(catalog);
+			break;
 
-			case 2:
-				showTypeSubMenu();
-				break;
+		case 2:
+			showTypeSubMenu();
+			break;
 
-			case 3:
-				showLowStock(catalog);
-				break;
+		case 3:
+			catalogLowStock(catalog);
+			break;
 
-			case 4:
-				console.log('\n\n\n\n\n\n\n');
-				break;
+		case 4:
+			console.log('\n\n\n\n\n\n\n');
+			break;
 
-			default:
-				console.log('Invalid option.');
-				break;
-		}
-	} while (option !== 4);
+		default:
+			console.log('Invalid option.');
+			break;
+	}
+};
+
+const showSearchGame = () => {
+	const search = prompt('Introduce ID or name of a game:');
+
+	searchGame(catalog, search);
+
+	console.log('\n\n\n\n\n\n\n');
 };
 
 let option = 0;
@@ -103,6 +106,10 @@ do {
 	switch (option) {
 		case 1:
 			showCatalogSubmenu();
+			break;
+
+		case 2:
+			showSearchGame();
 			break;
 
 		default:
