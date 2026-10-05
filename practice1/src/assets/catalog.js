@@ -174,8 +174,8 @@ function priceModStatus(id, catalog) {
 	return game.basePrice * STATUS_MOD[game.status];
 }
 
-export function sellGame(id, unit, catalog) {
-	if (id && unit > 0) {
+export function sellGame(id = null, unit, catalog) {
+	if (id !== null && unit > 0) {
 		const game = catalog.find((game) => game.id === id);
 
 		if (game && game.stock >= unit) {
@@ -191,6 +191,22 @@ export function sellGame(id, unit, catalog) {
 			});
 
 			return { updatedCatalog, game: { ...game, sellingPrice, stock: game.stock - unit } };
+		}
+	}
+
+	return null;
+}
+
+export function addStock(id = null, unit, catalog) {
+	if (id !== null && unit > 0) {
+		const game = catalog.find((game) => game.id === id);
+
+		if (game) {
+			const updatedCatalog = catalog.map((game) => {
+				return game.id === id ? { ...game, stock: game.stock + unit } : game;
+			});
+
+			return updatedCatalog;
 		}
 	}
 

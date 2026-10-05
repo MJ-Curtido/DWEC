@@ -1,4 +1,4 @@
-import { getCatalog, sellGame } from './assets/catalog';
+import { addStock, getCatalog, sellGame } from './assets/catalog';
 import { searchGame, allCatalog, catalogByType, catalogLowStock } from './functions';
 
 let catalog = getCatalog();
@@ -89,27 +89,33 @@ const showSearchGame = () => {
 	console.log('\n\n\n\n\n\n\n');
 };
 
-const showSalesRecord = () => {
+const showGamesStock = (action) => {
 	console.log('\n-- Games --');
 
 	catalog.forEach((game) => {
-		if (game.stock > 0) {
-			console.log(`${game.id}. ${game.name} - Stock: ${game.stock} --> ${game.basePrice}€${game.stock < 3 ? '\tLow Stock!!!' : ''}`);
-		}
+		console.log(
+			`${game.id}. ${game.name} - Stock: ${game.stock} --> ${game.basePrice}€${game.stock === 0 ? '\tNo Stock!!!' : game.stock < 3 ? '\tLow Stock!!!' : ''}`,
+		);
 	});
 
 	const id = Number(prompt('\nEnter the game ID:'));
 	const unit = Number(prompt('\nEnter the quantity:'));
 
-	const sale = sellGame(id, unit, catalog);
+	if (action === 'sale') {
+		const sale = sellGame(id, unit, catalog);
 
-	if (sale) {
-		catalog = sale.updatedCatalog;
-		sales.push(sale.game);
+		if (sale) {
+			catalog = sale.updatedCatalog;
+			sales.push(sale.game);
 
-		console.log('Sale successfully recorded.');
+			console.log('Sale successfully recorded.');
+		} else {
+			console.log('Invalid sale.');
+		}
 	} else {
-		console.log('Invalid sale.');
+		const updatedCatalog = addStock(id, unit, catalog);
+
+		if (updatedCatalog) catalog = updatedCatalog;
 	}
 };
 
@@ -138,7 +144,11 @@ do {
 			break;
 
 		case 3:
-			showSalesRecord();
+			showGamesStock('sale');
+			break;
+
+		case 4:
+			showGamesStock('add-stock');
 			break;
 
 		default:
