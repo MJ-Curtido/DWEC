@@ -1,7 +1,8 @@
-import { getCatalog } from './assets/catalog';
+import { getCatalog, sellGame } from './assets/catalog';
 import { searchGame, allCatalog, catalogByType, catalogLowStock } from './functions';
 
-const catalog = getCatalog();
+let catalog = getCatalog();
+let sales = [];
 
 const showTypeSubMenu = () => {
 	let option = 0;
@@ -52,7 +53,7 @@ const showCatalogSubmenu = () => {
                 -- Menu --
                 \t1. Show all the catalog.
                 \t2. Filtered by type.
-                \t3. Only products with low stock.
+                \t3. Only games with low stock.
                 \t4. Leave.\n
             `),
 	);
@@ -88,6 +89,30 @@ const showSearchGame = () => {
 	console.log('\n\n\n\n\n\n\n');
 };
 
+const showSalesRecord = () => {
+	console.log('\n-- Games --');
+
+	catalog.forEach((game) => {
+		if (game.stock > 0) {
+			console.log(`${game.id}. ${game.name} - Stock: ${game.stock} --> ${game.basePrice}€${game.stock < 3 ? '\tLow Stock!!!' : ''}`);
+		}
+	});
+
+	const id = Number(prompt('\nEnter the game ID:'));
+	const unit = Number(prompt('\nEnter the quantity:'));
+
+	const sale = sellGame(id, unit, catalog);
+
+	if (sale) {
+		catalog = sale.updatedCatalog;
+		sales.push(sale.game);
+
+		console.log('Sale successfully recorded.');
+	} else {
+		console.log('Invalid sale.');
+	}
+};
+
 let option = 0;
 
 do {
@@ -98,7 +123,7 @@ do {
             \t2. Search game.
             \t3. Record a sale.
             \t4. Add stock.
-            \t5. Sales report.
+            \t5. Sales record.
             \t6. Leave.\n
         `),
 	);
@@ -110,6 +135,10 @@ do {
 
 		case 2:
 			showSearchGame();
+			break;
+
+		case 3:
+			showSalesRecord();
 			break;
 
 		default:

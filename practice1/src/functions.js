@@ -3,7 +3,7 @@ const allCatalog = (catalog) => {
 
 	catalog.map((game) => {
 		console.log(
-			`${game.name} - ${game.platform} - ${game.status} - ${game.type} --> ${game.basePrice}€${game.stock < 3 ? '\tLow Stock!!!' : ''}`,
+			`${game.name} - ${game.platform} - ${game.status} - ${game.type} --> ${game.basePrice}€${game.stock === 0 ? '\tNo Stock!!!' : game.stock < 3 ? '\tLow Stock!!!' : ''}`,
 		);
 	});
 };
@@ -15,7 +15,7 @@ const catalogByType = (catalog, type) => {
 		.filter((game) => game.type === type)
 		.map((game) => {
 			console.log(
-				`${game.name} - ${game.platform} - ${game.status} - ${game.type} --> ${game.basePrice}€${game.stock < 3 ? '\tLow Stock!!!' : ''}`,
+				`${game.name} - ${game.platform} - ${game.status} - ${game.type} --> ${game.basePrice}€${game.stock === 0 ? '\tNo Stock!!!' : game.stock < 3 ? '\tLow Stock!!!' : ''}`,
 			);
 		});
 };
@@ -35,7 +35,7 @@ const searchGame = (catalog, search) => {
 
 	if (game) {
 		console.log(
-			`${game.name} - ${game.platform} - ${game.status} - ${game.type} --> ${game.basePrice}€${game.stock < 3 ? '\tLow Stock!!!' : ''}`,
+			`${game.name} - ${game.platform} - ${game.status} - ${game.type} --> ${game.basePrice}€${game.stock === 0 ? '\tNo Stock!!!' : game.stock < 3 ? '\tLow Stock!!!' : ''}`,
 		);
 	} else {
 		console.log('Game not found.');

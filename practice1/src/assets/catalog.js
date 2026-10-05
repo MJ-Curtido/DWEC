@@ -1,5 +1,5 @@
 /**
- * @typedef {Object} Product;
+ * @typedef {Object} Game;
  * @property {number} id;
  * @property {string} name;
  * @property {string} platform;
@@ -10,7 +10,7 @@
  */
 
 /**
- * @type {Product[]}
+ * @type {Game[]}
  */
 
 export const INITIAL_CATALOG = [
@@ -82,7 +82,7 @@ export const INITIAL_CATALOG = [
 		basePrice: 30,
 		name: 'Inazuma Eleven Striker',
 		platform: 'Wii',
-		status: 'used-like-new',
+		status: 'new-sealed',
 		stock: 1,
 		type: 'Open World',
 	},
@@ -168,27 +168,29 @@ export function getCatalog() {
 	return [...INITIAL_CATALOG];
 }
 
-function priceModStatus(id) {
+function priceModStatus(id, catalog) {
 	const game = catalog.find((game) => game.id === id);
 
 	return game.basePrice * STATUS_MOD[game.status];
 }
 
-export function sellProduct(id, unit, catalog) {
+export function sellGame(id, unit, catalog) {
 	if (id && unit > 0) {
 		const game = catalog.find((game) => game.id === id);
 
 		if (game && game.stock >= unit) {
 			const sellingPrice =
 				unit === 1
-					? priceModStatus(id) * UNITS_DISCOUNT['one-unit']
+					? priceModStatus(id, catalog) * UNITS_DISCOUNT['one-unit']
 					: unit <= 3
-						? priceModStatus(id) * UNITS_DISCOUNT['small-sale']
-						: priceModStatus(id) * UNITS_DISCOUNT['big-sale'];
+						? priceModStatus(id, catalog) * UNITS_DISCOUNT['small-sale']
+						: priceModStatus(id, catalog) * UNITS_DISCOUNT['big-sale'];
 
-			game.stock = game.stock - unit;
+			const updatedCatalog = catalog.map((game) => {
+				return game.id === id ? { ...game, stock: game.stock - unit } : game;
+			});
 
-			return { ...game, sellingPrice };
+			return { updatedCatalog, game: { ...game, sellingPrice, stock: game.stock - unit } };
 		}
 	}
 
