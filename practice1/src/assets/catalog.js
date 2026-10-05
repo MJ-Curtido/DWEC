@@ -159,9 +159,9 @@ const STATUS_MOD = {
 };
 
 const UNITS_DISCOUNT = {
-	'small-sale': 1.05, //+5% (2-3 units bought)
+	'small-sale': 0.95, //-5% (2-3 units bought)
 	'one-unit': 1, //0% (1 unit bought)
-	'big-sale': 1.1, //+10% (more than 3 units bought)
+	'big-sale': 0.9, //-10% (more than 3 units bought)
 };
 
 export function getCatalog() {
