@@ -169,14 +169,14 @@ export function getCatalog() {
 }
 
 function priceModStatus(id, catalog) {
-	const game = catalog.find((game) => game.id === id);
+	const game = catalog?.find((game) => game.id === id);
 
 	return game.basePrice * STATUS_MOD[game.status];
 }
 
 export function sellGame(id = null, unit, catalog) {
 	if (id !== null && unit > 0) {
-		const game = catalog.find((game) => game.id === id);
+		const game = catalog?.find((game) => game.id === id);
 
 		if (game && game.stock >= unit) {
 			const sellingPrice =
@@ -199,7 +199,7 @@ export function sellGame(id = null, unit, catalog) {
 
 export function addStock(id = null, unit, catalog) {
 	if (id !== null && unit > 0) {
-		const game = catalog.find((game) => game.id === id);
+		const game = catalog?.find((game) => game.id === id);
 
 		if (game) {
 			const updatedCatalog = catalog.map((game) => {
@@ -212,3 +212,12 @@ export function addStock(id = null, unit, catalog) {
 
 	return null;
 }
+
+export const createSalesCounter = () => {
+	let count = 0;
+
+	return {
+		add: () => count++,
+		get: () => count,
+	};
+};

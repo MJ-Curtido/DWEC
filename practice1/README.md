@@ -3,3 +3,11 @@ He decidido organizar mi código con el objeto que contiene todo el catálogo en
 Catálogo es un array de juegos, que son objetos que tienen id <Number>, basePrice <Number>, name <String>, platform <String>, status <String>, stock <Number> y type <String>. Y cuando realizo una compra, devuelvo el objeto con una propiedad sellingPrice <Number> que devuelve el precio de compra con los descuentos que le pertenezcan.
 
 En GitHub he creado 3 ramas principales para este proyecto, por un lado está 'feature/practice1' que sería la rama donde desarrollo esta práctica, luego con los cambios realizados se haría un merge con 'develop' (otra rama intermedia) y cuando se han comprobado todos los cambios correctamente, se haría un merge con 'main' (la rama principal).
+
+Tuve que depurar con un breakpoint la parte de registrar compra de juego, porque quería asegurarme de que los datos se estuvieran enviando bien, y gracias a eso, me di cuenta de que me faltaba un par de modificaciones en el stock de producto y en el precio de venta.
+
+---
+
+— EJECUTAR PROYECTO —
+
+Para ejecutar mi proyecto lo único necesario es tener instalado docker en tu dispositivo, accedes a la carpeta del proyecto y pones en una terminar 'docker compose up', y se desplegará localmente en principio en 'http://localhost:5173/', donde se podrá usar el programa.
