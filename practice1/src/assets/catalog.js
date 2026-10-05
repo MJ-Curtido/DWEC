@@ -5,7 +5,6 @@
  * @property {string} platform;
  * @property {string} type;
  * @property {number} basePrice;
- * @property {number} sellingPrice;
  * @property {'new-sealed' | 'used-like-new' | 'used-damaged-packaging' | 'game-only'} status;
  * @property {number} stock;
  */
@@ -165,26 +164,32 @@ const UNITS_DISCOUNT = {
 	'big-purchase': 1.1, //+10% (more than 3 units bought)
 };
 
-export function priceModStatus() {
-	return INITIAL_CATALOG.reduce((acc, game) => {
-		acc.push({ ...game, sellingPrice: game.basePrice * STATUS_MOD[game.status] });
-	}, []);
+export function getCatalog() {
+	return [...INITIAL_CATALOG];
+}
+
+export function priceModStatus(id) {
+	const game = catalog.find((game) => game.id === id);
+
+	return game.basePrice * STATUS_MOD[game.status];
 }
 
 export function sellProduct(id, unit, catalog) {
-	const game = catalog.find((game) => game.id === id);
+	if (id && unit > 0) {
+		const game = catalog.find((game) => game.id === id);
 
-	if (game && game.stock >= unit) {
-		game.sellingPrice =
-			unit === 1
-				? game.sellingPrice * UNITS_DISCOUNT['one-unit']
-				: unit >= 2 && unit <= 3
-					? game.sellingPrice * UNITS_DISCOUNT['small-purchase']
-					: game.sellingPrice * UNITS_DISCOUNT['big-purchase'];
+		if (game && game.stock >= unit) {
+			const sellingPrice =
+				unit === 1
+					? priceModStatus(id) * UNITS_DISCOUNT['one-unit']
+					: unit <= 3
+						? priceModStatus(id) * UNITS_DISCOUNT['small-purchase']
+						: priceModStatus(id) * UNITS_DISCOUNT['big-purchase'];
 
-		game.stock = game.stock - unit;
+			game.stock = game.stock - unit;
 
-		return game;
+			return { ...game, sellingPrice };
+		}
 	}
 
 	return null;
