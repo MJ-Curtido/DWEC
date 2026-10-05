@@ -21,7 +21,7 @@ export const INITIAL_CATALOG = [
 		platform: 'PC',
 		status: 'used-like-new',
 		stock: 17,
-		type: 'Metroidvania',
+		type: 'Platform',
 	},
 	{
 		id: 1,
@@ -48,7 +48,7 @@ export const INITIAL_CATALOG = [
 		platform: 'PC',
 		status: 'game-only',
 		stock: 7,
-		type: 'Roguelike',
+		type: 'Platform',
 	},
 	{
 		id: 4,
@@ -66,16 +66,16 @@ export const INITIAL_CATALOG = [
 		platform: 'PC',
 		status: 'used-damaged-packaging',
 		stock: 18,
-		type: 'Choose',
+		type: 'Open World',
 	},
 	{
 		id: 6,
 		basePrice: 40,
-		name: 'The Last of Us',
+		name: 'Grand Theft Auto VI',
 		platform: 'Play Station',
 		status: 'used-like-new',
 		stock: 6,
-		type: 'Shooter',
+		type: 'Open World',
 	},
 	{
 		id: 7,
@@ -84,7 +84,7 @@ export const INITIAL_CATALOG = [
 		platform: 'Wii',
 		status: 'used-like-new',
 		stock: 1,
-		type: 'Soccer',
+		type: 'Open World',
 	},
 	{
 		id: 8,
@@ -102,7 +102,7 @@ export const INITIAL_CATALOG = [
 		platform: 'PC',
 		status: 'used-like-new',
 		stock: 60,
-		type: 'Survival',
+		type: 'Open World',
 	},
 	{
 		id: 10,
@@ -111,7 +111,7 @@ export const INITIAL_CATALOG = [
 		platform: 'PC',
 		status: 'new-sealed',
 		stock: 100,
-		type: 'Survival',
+		type: 'Open World',
 	},
 	{
 		id: 11,
@@ -125,11 +125,11 @@ export const INITIAL_CATALOG = [
 	{
 		id: 12,
 		basePrice: 14,
-		name: 'Wii Play',
-		platform: 'Wii',
+		name: 'Need For Speed',
+		platform: 'PC',
 		status: 'game-only',
 		stock: 3,
-		type: 'Minigames',
+		type: 'Driving',
 	},
 	{
 		id: 13,
@@ -159,16 +159,16 @@ const STATUS_MOD = {
 };
 
 const UNITS_DISCOUNT = {
-	'small-purchase': 1.05, //+5% (2-3 units bought)
+	'small-sale': 1.05, //+5% (2-3 units bought)
 	'one-unit': 1, //0% (1 unit bought)
-	'big-purchase': 1.1, //+10% (more than 3 units bought)
+	'big-sale': 1.1, //+10% (more than 3 units bought)
 };
 
 export function getCatalog() {
 	return [...INITIAL_CATALOG];
 }
 
-export function priceModStatus(id) {
+function priceModStatus(id) {
 	const game = catalog.find((game) => game.id === id);
 
 	return game.basePrice * STATUS_MOD[game.status];
@@ -183,8 +183,8 @@ export function sellProduct(id, unit, catalog) {
 				unit === 1
 					? priceModStatus(id) * UNITS_DISCOUNT['one-unit']
 					: unit <= 3
-						? priceModStatus(id) * UNITS_DISCOUNT['small-purchase']
-						: priceModStatus(id) * UNITS_DISCOUNT['big-purchase'];
+						? priceModStatus(id) * UNITS_DISCOUNT['small-sale']
+						: priceModStatus(id) * UNITS_DISCOUNT['big-sale'];
 
 			game.stock = game.stock - unit;
 
