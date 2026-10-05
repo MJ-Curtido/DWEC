@@ -1,8 +1,9 @@
-import { addStock, getCatalog, sellGame } from './assets/catalog';
+import { addStock, createSalesCounter, getCatalog, sellGame } from './assets/catalog';
 import { searchGame, allCatalog, catalogByType, catalogLowStock, salesReport } from './functions';
 
 let catalog = getCatalog();
 let sales = [];
+const salesCounter = createSalesCounter();
 
 const showTypeSubMenu = () => {
 	let option = 0;
@@ -84,7 +85,9 @@ const showCatalogSubmenu = () => {
 const showSearchGame = () => {
 	const search = prompt('Introduce ID or name of a game:');
 
-	searchGame(catalog, search);
+	searchGame(catalog, search, (catalog, search) => {
+		return catalog.find((game) => game.id === Number(search) || game.name.toLowerCase().includes(search.toLowerCase()));
+	});
 
 	console.log('\n\n\n\n\n\n\n');
 };
@@ -99,23 +102,31 @@ const showGamesStock = (action) => {
 	});
 
 	const id = Number(prompt('\nEnter the game ID:'));
-	const unit = Number(prompt('\nEnter the quantity:'));
+	const unit = Number(prompt('\nEnter the quantity:')) ?? 0;
 
 	if (action === 'sale') {
 		const sale = sellGame(id, unit, catalog);
 
 		if (sale) {
-			catalog = sale.updatedCatalog;
-			sales.push(sale.game);
+			const { updatedCatalog, game } = sale;
+
+			catalog = updatedCatalog;
+			sales.push(game);
 
 			console.log('Sale successfully recorded.');
+
+			salesCounter.add();
 		} else {
 			console.log('Invalid sale.');
 		}
 	} else {
 		const updatedCatalog = addStock(id, unit, catalog);
 
-		if (updatedCatalog) catalog = updatedCatalog;
+		if (updatedCatalog) {
+			catalog = updatedCatalog;
+		} else {
+			console.log('Invalid stock.');
+		}
 	}
 };
 
@@ -153,6 +164,7 @@ do {
 
 		case 5:
 			salesReport(catalog, sales);
+			console.log(`Total sales: ${salesCounter.get()}`);
 			break;
 
 		default:
