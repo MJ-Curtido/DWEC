@@ -44,7 +44,7 @@ const searchGame = function (catalog, search, callback) {
 
 const salesReport = function (catalog, sales) {
 	const totalAmount = sales.reduce((acc, sale) => {
-		return acc + sale.sellingPrice;
+		return acc + sale.sellingPrice * sale.unit;
 	}, 0);
 
 	const stockValue = catalog.reduce((acc, game) => {
@@ -52,8 +52,8 @@ const salesReport = function (catalog, sales) {
 	}, 0);
 
 	console.log('\n-- Sales Report --\n');
-	console.log(`Total amount billed: ${totalAmount}€`);
-	console.log(`Stock value: ${stockValue}€`);
+	console.log(`Total amount billed: ${totalAmount.toFixed(2)}€`);
+	console.log(`Stock value: ${stockValue.toFixed(2)}€`);
 
 	catalog.some((game) => game.stock <= 3) && console.log('There are some articles with low stock!');
 };

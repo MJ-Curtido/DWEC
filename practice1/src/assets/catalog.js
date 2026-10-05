@@ -149,6 +149,24 @@ export const INITIAL_CATALOG = [
 		stock: 32,
 		type: 'Open World',
 	},
+	{
+		id: 15,
+		basePrice: 45,
+		name: 'Chrono Trigger',
+		platform: 'SNES',
+		status: 'used-like-new',
+		stock: 4,
+		type: 'RPG',
+	},
+	{
+		id: 16,
+		basePrice: 60,
+		name: 'Streets of Rage 2',
+		platform: 'MEGA DRIVE',
+		status: 'new-sealed',
+		stock: 10,
+		type: 'Fight',
+	},
 ];
 
 const STATUS_MOD = {
@@ -190,7 +208,7 @@ export function sellGame(id = null, unit, catalog) {
 				return game.id === id ? { ...game, stock: game.stock - unit } : game;
 			});
 
-			return { updatedCatalog, game: { ...game, sellingPrice, stock: game.stock - unit } };
+			return { updatedCatalog, game: { ...game, sellingPrice, unit } };
 		}
 	}
 
