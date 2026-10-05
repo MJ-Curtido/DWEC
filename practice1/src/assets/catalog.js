@@ -6,7 +6,7 @@
  * @property {string} type;
  * @property {number} basePrice;
  * @property {number} sellingPrice;
- * @property {'nuevo-precintado' | 'usado-como-nuevo' | 'usado-caja-danada' | 'solo-cartucho'} status;
+ * @property {'new-sealed' | 'used-like-new' | 'used-damaged-packaging' | 'game-only'} status;
  * @property {number} stock;
  */
 
@@ -14,180 +14,177 @@
  * @type {Product[]}
  */
 
-export const catalog = [
+export const INITIAL_CATALOG = [
 	{
 		id: 0,
+		basePrice: 20,
 		name: 'Hollow Knight',
 		platform: 'PC',
-		type: 'Metroidvania',
-		basePrice: 20,
-		status: 'usado-como-nuevo',
+		status: 'used-like-new',
 		stock: 17,
+		type: 'Metroidvania',
 	},
 	{
 		id: 1,
+		basePrice: 150,
 		name: 'Pokemon Red',
 		platform: 'GAME BOY',
-		type: 'RPG',
-		basePrice: 150,
-		status: 'nuevo-precintado',
+		status: 'new-sealed',
 		stock: 0,
+		type: 'RPG',
 	},
 	{
 		id: 2,
+		basePrice: 10,
 		name: 'Celeste',
 		platform: 'PC',
-		type: 'Platform',
-		basePrice: 10,
-		status: 'usado-caja-danada',
+		status: 'used-damaged-packaging',
 		stock: 30,
+		type: 'Platform',
 	},
 	{
 		id: 3,
+		basePrice: 60,
 		name: 'The Binding of Isaac',
 		platform: 'PC',
-		type: 'Roguelike',
-		basePrice: 60,
-		status: 'solo-cartucho',
+		status: 'game-only',
 		stock: 7,
+		type: 'Roguelike',
 	},
 	{
 		id: 4,
+		basePrice: 20,
 		name: 'Euro Truck Simulator',
 		platform: 'PC',
-		type: 'Driving',
-		basePrice: 20,
-		status: 'nuevo-precintado',
+		status: 'new-sealed',
 		stock: 10,
+		type: 'Driving',
 	},
 	{
 		id: 5,
+		basePrice: 40,
 		name: 'Detroit Become Human',
 		platform: 'PC',
-		type: 'Choose',
-		basePrice: 40,
-		status: 'usado-caja-danada',
+		status: 'used-damaged-packaging',
 		stock: 18,
+		type: 'Choose',
 	},
 	{
 		id: 6,
+		basePrice: 40,
 		name: 'The Last of Us',
 		platform: 'Play Station',
-		type: 'Shooter',
-		basePrice: 40,
-		status: 'usado-como-nuevo',
+		status: 'used-like-new',
 		stock: 6,
+		type: 'Shooter',
 	},
 	{
 		id: 7,
+		basePrice: 30,
 		name: 'Inazuma Eleven Striker',
 		platform: 'Wii',
-		type: 'Soccer',
-		basePrice: 30,
-		status: 'usado-como-nuevo',
+		status: 'used-like-new',
 		stock: 1,
+		type: 'Soccer',
 	},
 	{
 		id: 8,
+		basePrice: 60,
 		name: 'Pokemon Diamond',
 		platform: 'Nintendo DS',
-		type: 'RPG',
-		basePrice: 60,
-		status: 'nuevo-precintado',
+		status: 'new-sealed',
 		stock: 2,
+		type: 'RPG',
 	},
 	{
 		id: 9,
+		basePrice: 15,
 		name: 'Raft',
 		platform: 'PC',
-		type: 'Survival',
-		basePrice: 15,
-		status: 'usado-como-nuevo',
+		status: 'used-like-new',
 		stock: 60,
+		type: 'Survival',
 	},
 	{
 		id: 10,
+		basePrice: 25,
 		name: 'Minecraft',
 		platform: 'PC',
-		type: 'Survival',
-		basePrice: 25,
-		status: 'nuevo-precintado',
+		status: 'new-sealed',
 		stock: 100,
+		type: 'Survival',
 	},
 	{
 		id: 11,
+		basePrice: 60,
 		name: 'Forza Horizon 6',
 		platform: 'Xbox',
-		type: 'Driving',
-		basePrice: 60,
-		status: 'usado-como-nuevo',
+		status: 'used-like-new',
 		stock: 50,
+		type: 'Driving',
 	},
 	{
 		id: 12,
+		basePrice: 14,
 		name: 'Wii Play',
 		platform: 'Wii',
-		type: 'Minigames',
-		basePrice: 14,
-		status: 'solo-cartucho',
+		status: 'game-only',
 		stock: 3,
+		type: 'Minigames',
 	},
 	{
 		id: 13,
+		basePrice: 25,
 		name: 'Mario Kart',
 		platform: 'Nintendo DS',
-		type: 'Driving',
-		basePrice: 25,
-		status: 'solo-cartucho',
+		status: 'game-only',
 		stock: 0,
+		type: 'Driving',
 	},
 	{
 		id: 14,
+		basePrice: 40,
 		name: 'Red Dead Redeption 2',
 		platform: 'Play Station',
-		type: 'Open World',
-		basePrice: 40,
-		status: 'usado-caja-danada',
+		status: 'used-damaged-packaging',
 		stock: 32,
+		type: 'Open World',
 	},
 ];
 
 const STATUS_MOD = {
-	'nuevo-precintado': 1.25, //+25%
-	'usado-como-nuevo': 1, //0%
-	'usado-caja-danada': 0.85, //-15%
-	'solo-cartucho': 0.7, //-30%
+	'game-only': 0.7, //-30%
+	'new-sealed': 1.25, //+25%
+	'used-damaged-packaging': 0.85, //-15%
+	'used-like-new': 1, //0%
 };
 
 const UNITS_DISCOUNT = {
-	'one-stock': 1, //0%
-	'low-stock': 1.05, //+5%
-	'plenty-stock': 1.1, //+10%
+	'small-purchase': 1.05, //+5% (2-3 units bought)
+	'one-unit': 1, //0% (1 unit bought)
+	'big-purchase': 1.1, //+10% (more than 3 units bought)
 };
 
-//TODO: Change function updating catalog
 export function priceModStatus() {
-	return catalog.reduce((acc, game) => {
+	return INITIAL_CATALOG.reduce((acc, game) => {
 		acc.push({ ...game, sellingPrice: game.basePrice * STATUS_MOD[game.status] });
 	}, []);
 }
 
-//TODO: Update game stock if there is a purchase
-export function sellProduct(id, unit) {
+export function sellProduct(id, unit, catalog) {
 	const game = catalog.find((game) => game.id === id);
 
-	if (game) {
-		const updatedGame = {
-			...game,
-			sellingPrice:
-				unit === 1
-					? game.sellingPrice * UNITS_DISCOUNT['one-stock']
-					: unit >= 2 && unit <= 3
-						? game.sellingPrice * UNITS_DISCOUNT['low-stock']
-						: game.sellingPrice * UNITS_DISCOUNT['plenty-stock'],
-		};
+	if (game && game.stock >= unit) {
+		game.sellingPrice =
+			unit === 1
+				? game.sellingPrice * UNITS_DISCOUNT['one-unit']
+				: unit >= 2 && unit <= 3
+					? game.sellingPrice * UNITS_DISCOUNT['small-purchase']
+					: game.sellingPrice * UNITS_DISCOUNT['big-purchase'];
 
-		return updatedGame;
+		game.stock = game.stock - unit;
+
+		return game;
 	}
 
 	return null;
