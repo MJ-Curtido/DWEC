@@ -51,8 +51,19 @@ const salesReport = function (catalog, sales) {
 		return acc + game.basePrice * game.stock;
 	}, 0);
 
+	const totalUnitSales = [];
+
+	sales.map((sale) => {
+		totalUnitSales.push({ ...sale, totalUnit: sales.filter((game) => game.id === sale.id).reduce((acc, game) => acc + game.unit, 0) });
+	});
+
+	const bestSellingGame = totalUnitSales.reduce((max, game) => {
+		return game.totalUnit > max.totalUnit ? game : max;
+	});
+
 	console.log('\n-- Sales Report --\n');
 	console.log(`Total amount billed: ${totalAmount.toFixed(2)}€`);
+	console.log(`Best-selling game: ${bestSellingGame.name}`);
 	console.log(`Stock value: ${stockValue.toFixed(2)}€`);
 
 	catalog.some((game) => game.stock <= 3) && console.log('There are some articles with low stock!');
