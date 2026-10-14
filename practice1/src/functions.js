@@ -54,7 +54,8 @@ const salesReport = function (catalog, sales) {
 	const totalUnitSales = [];
 
 	sales.map((sale) => {
-		totalUnitSales.push({ ...sale, totalUnit: sales.filter((game) => game.id === sale.id).reduce((acc, game) => acc + game.unit, 0) });
+		if (!totalUnitSales.find((game) => game.id === sale.id))
+			totalUnitSales.push({ ...sale, totalUnit: sales.filter((game) => game.id === sale.id).reduce((acc, game) => acc + game.unit, 0) });
 	});
 
 	const bestSellingGame = totalUnitSales.reduce((max, game) => {
