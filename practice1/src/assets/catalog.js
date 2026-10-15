@@ -5,8 +5,12 @@
  * @property {string} platform;
  * @property {string} type;
  * @property {number} basePrice;
+<<<<<<< HEAD
  * @property {number} sellingPrice;
  * @property {'new-sealed' | 'used-like-new' | 'used-damaged-packaging' | 'game-only'} status;
+=======
+ * @property {'new-sealed' | 'used-like-new' | 'used-damaged-packaging' | 'game-only' | 'premium'} status;
+>>>>>>> e0a0387 (Presentation changes)
  * @property {number} stock;
  */
 
@@ -74,7 +78,7 @@ export const INITIAL_CATALOG = [
 		basePrice: 40,
 		name: 'The Last of Us',
 		platform: 'Play Station',
-		status: 'used-like-new',
+		status: 'premium',
 		stock: 6,
 		type: 'Shooter',
 	},
@@ -157,6 +161,7 @@ const STATUS_MOD = {
 	'new-sealed': 1.25, //+25%
 	'used-damaged-packaging': 0.85, //-15%
 	'used-like-new': 1, //0%
+	'premium': 1.4, //+40%
 };
 
 const UNITS_DISCOUNT = {
