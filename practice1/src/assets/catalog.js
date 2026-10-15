@@ -5,7 +5,7 @@
  * @property {string} platform;
  * @property {string} type;
  * @property {number} basePrice;
- * @property {'new-sealed' | 'used-like-new' | 'used-damaged-packaging' | 'game-only'} status;
+ * @property {'new-sealed' | 'used-like-new' | 'used-damaged-packaging' | 'game-only' | 'premium'} status;
  * @property {number} stock;
  */
 
@@ -73,7 +73,7 @@ export const INITIAL_CATALOG = [
 		basePrice: 40,
 		name: 'Grand Theft Auto VI',
 		platform: 'Play Station',
-		status: 'used-like-new',
+		status: 'premium',
 		stock: 6,
 		type: 'Open World',
 	},
@@ -174,6 +174,7 @@ const STATUS_MOD = {
 	'new-sealed': 1.25, //+25%
 	'used-damaged-packaging': 0.85, //-15%
 	'used-like-new': 1, //0%
+	'premium': 1.4, //+40%
 };
 
 const UNITS_DISCOUNT = {
