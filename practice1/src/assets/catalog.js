@@ -1,21 +1,16 @@
 /**
- * @typedef {Object} Product;
+ * @typedef {Object} Game;
  * @property {number} id;
  * @property {string} name;
  * @property {string} platform;
  * @property {string} type;
  * @property {number} basePrice;
-<<<<<<< HEAD
- * @property {number} sellingPrice;
- * @property {'new-sealed' | 'used-like-new' | 'used-damaged-packaging' | 'game-only'} status;
-=======
  * @property {'new-sealed' | 'used-like-new' | 'used-damaged-packaging' | 'game-only' | 'premium'} status;
->>>>>>> e0a0387 (Presentation changes)
  * @property {number} stock;
  */
 
 /**
- * @type {Product[]}
+ * @type {Game[]}
  */
 
 export const INITIAL_CATALOG = [
@@ -26,7 +21,7 @@ export const INITIAL_CATALOG = [
 		platform: 'PC',
 		status: 'used-like-new',
 		stock: 17,
-		type: 'Metroidvania',
+		type: 'Platform',
 	},
 	{
 		id: 1,
@@ -53,7 +48,7 @@ export const INITIAL_CATALOG = [
 		platform: 'PC',
 		status: 'game-only',
 		stock: 7,
-		type: 'Roguelike',
+		type: 'Platform',
 	},
 	{
 		id: 4,
@@ -71,25 +66,25 @@ export const INITIAL_CATALOG = [
 		platform: 'PC',
 		status: 'used-damaged-packaging',
 		stock: 18,
-		type: 'Choose',
+		type: 'Open World',
 	},
 	{
 		id: 6,
 		basePrice: 40,
-		name: 'The Last of Us',
+		name: 'Grand Theft Auto VI',
 		platform: 'Play Station',
 		status: 'premium',
 		stock: 6,
-		type: 'Shooter',
+		type: 'Open World',
 	},
 	{
 		id: 7,
 		basePrice: 30,
 		name: 'Inazuma Eleven Striker',
 		platform: 'Wii',
-		status: 'used-like-new',
+		status: 'new-sealed',
 		stock: 1,
-		type: 'Soccer',
+		type: 'Open World',
 	},
 	{
 		id: 8,
@@ -107,7 +102,7 @@ export const INITIAL_CATALOG = [
 		platform: 'PC',
 		status: 'used-like-new',
 		stock: 60,
-		type: 'Survival',
+		type: 'Open World',
 	},
 	{
 		id: 10,
@@ -116,7 +111,7 @@ export const INITIAL_CATALOG = [
 		platform: 'PC',
 		status: 'new-sealed',
 		stock: 100,
-		type: 'Survival',
+		type: 'Open World',
 	},
 	{
 		id: 11,
@@ -130,11 +125,11 @@ export const INITIAL_CATALOG = [
 	{
 		id: 12,
 		basePrice: 14,
-		name: 'Wii Play',
-		platform: 'Wii',
+		name: 'Need For Speed',
+		platform: 'PC',
 		status: 'game-only',
 		stock: 3,
-		type: 'Minigames',
+		type: 'Driving',
 	},
 	{
 		id: 13,
@@ -154,6 +149,24 @@ export const INITIAL_CATALOG = [
 		stock: 32,
 		type: 'Open World',
 	},
+	{
+		id: 15,
+		basePrice: 45,
+		name: 'Chrono Trigger',
+		platform: 'SNES',
+		status: 'used-like-new',
+		stock: 4,
+		type: 'RPG',
+	},
+	{
+		id: 16,
+		basePrice: 60,
+		name: 'Streets of Rage 2',
+		platform: 'MEGA DRIVE',
+		status: 'new-sealed',
+		stock: 10,
+		type: 'Fight',
+	},
 ];
 
 const STATUS_MOD = {
@@ -165,32 +178,65 @@ const STATUS_MOD = {
 };
 
 const UNITS_DISCOUNT = {
-	'small-purchase': 1.05, //+5% (2-3 units bought)
+	'small-sale': 0.95, //-5% (2-3 units bought)
 	'one-unit': 1, //0% (1 unit bought)
-	'big-purchase': 1.1, //+10% (more than 3 units bought)
+	'big-sale': 0.9, //-10% (more than 3 units bought)
 };
 
-export function priceModStatus() {
-	return INITIAL_CATALOG.reduce((acc, game) => {
-		acc.push({ ...game, sellingPrice: game.basePrice * STATUS_MOD[game.status] });
-	}, []);
+export function getCatalog() {
+	return [...INITIAL_CATALOG];
 }
 
-export function sellProduct(id, unit, catalog) {
-	const game = catalog.find((game) => game.id === id);
+function priceModStatus(id, catalog) {
+	const game = catalog?.find((game) => game.id === id);
 
-	if (game && game.stock >= unit) {
-		game.sellingPrice =
-			unit === 1
-				? game.sellingPrice * UNITS_DISCOUNT['one-unit']
-				: unit >= 2 && unit <= 3
-					? game.sellingPrice * UNITS_DISCOUNT['small-purchase']
-					: game.sellingPrice * UNITS_DISCOUNT['big-purchase'];
+	return game.basePrice * STATUS_MOD[game.status];
+}
 
-		game.stock = game.stock - unit;
+export function sellGame(id = null, unit, catalog) {
+	if (id !== null && unit > 0) {
+		const game = catalog?.find((game) => game.id === id);
 
-		return game;
+		if (game && game.stock >= unit) {
+			const sellingPrice =
+				unit === 1
+					? priceModStatus(id, catalog) * UNITS_DISCOUNT['one-unit']
+					: unit <= 3
+						? priceModStatus(id, catalog) * UNITS_DISCOUNT['small-sale']
+						: priceModStatus(id, catalog) * UNITS_DISCOUNT['big-sale'];
+
+			const updatedCatalog = catalog.map((game) => {
+				return game.id === id ? { ...game, stock: game.stock - unit } : game;
+			});
+
+			return { updatedCatalog, game: { ...game, sellingPrice, unit } };
+		}
 	}
 
 	return null;
 }
+
+export function addStock(id = null, unit, catalog) {
+	if (id !== null && unit > 0) {
+		const game = catalog?.find((game) => game.id === id);
+
+		if (game) {
+			const updatedCatalog = catalog.map((game) => {
+				return game.id === id ? { ...game, stock: game.stock + unit } : game;
+			});
+
+			return updatedCatalog;
+		}
+	}
+
+	return null;
+}
+
+export const createSalesCounter = () => {
+	let count = 0;
+
+	return {
+		add: () => count++,
+		get: () => count,
+	};
+};
