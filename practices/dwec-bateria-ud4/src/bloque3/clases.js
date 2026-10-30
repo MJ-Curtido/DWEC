@@ -5,23 +5,31 @@
 // 👀 EJEMPLO RESUELTO ─────────────────────────────────────────────────────────
 // Un campo privado (#valor) que solo se puede leer con un getter y cambiar con un método.
 export class Contador {
-  #valor = 0;
-  incrementar() {
-    this.#valor++;
-    return this; // devolver this permite encadenar: c.incrementar().incrementar()
-  }
-  get valor() {
-    return this.#valor;
-  }
+	#valor = 0;
+	incrementar() {
+		this.#valor++;
+		return this; // devolver this permite encadenar: c.incrementar().incrementar()
+	}
+	get valor() {
+		return this.#valor;
+	}
 }
 
 // 🪜 ESCALERA ──────────────────────────────────────────────────────────────────
 // 🪜 1 · Una clase Punto con x e y, y un método distanciaAlOrigen().  new Punto(3, 4).distanciaAlOrigen() → 5
 //        (pista: Math.hypot)
 export class Punto {
-  constructor(x, y) {
-    throw new Error("Sin hacer");
-  }
+	#x = 0;
+	#y = 0;
+
+	constructor(x, y) {
+		this.#x = x;
+		this.#y = y;
+	}
+
+	distanciaAlOrigen() {
+		return Math.hypot(this.#x, this.#y);
+	}
 }
 
 // ✍️ TU TURNO ─────────────────────────────────────────────────────────────────
@@ -36,13 +44,53 @@ export class Punto {
 //   - Libro.creados: cuántos libros se han creado (un contador privado y static, con un getter static).
 //   - Libro.desde({ titulo, autor, paginas }) → un Libro nuevo a partir de un objeto.
 export class Libro {
-  constructor(titulo, autor, paginas) {
-    throw new Error("Sin hacer");
-  }
+	#autor = '';
+	#paginas = '';
+	static #creados = 0;
+	titulo = '';
+
+	constructor(titulo, autor, paginas) {
+		if (!titulo.trim()) throw new Error('Introduce a valid title.');
+
+		this.#autor = autor;
+		this.paginas = paginas;
+		this.titulo = titulo.trim();
+
+		Libro.#creados++;
+	}
+
+	get paginas() {
+		return this.#paginas;
+	}
+
+	get esLargo() {
+		return this.#paginas >= 400;
+	}
+
+	static get creados() {
+		return Libro.#creados;
+	}
+
+	set paginas(value) {
+		if (Number.isInteger(value) && value <= 0) throw new Error('Pages must be an integer and greater than zero.');
+
+		this.#paginas = value;
+	}
+
+	static desde(book) {
+		return new Libro(book.titulo, book.autor, book.paginas);
+	}
+
+	resumen() {
+		return `${this.titulo} (${this.#autor}), ${this.paginas} págs.`;
+	}
 }
 
 // ✍️ 3 · Devuelve una FUNCIÓN que, al llamarla suelta (avisar()), devuelva libro.resumen().
 //        Si devuelves libro.resumen tal cual, se pierde this. ¿Cómo lo evitas? (apartado 7.7)
 export function crearAvisador(libro) {
-  throw new Error("Sin hacer");
+	return () => {
+		return libro.resumen();
+	};
 }
+// No podemos devolver libro.resumen porque el this cambiaría y ya no podría acceder a lo que necesita, la forma de evitarlo es devolviendo una función flecha que lo ejecute dentro, así no cambia el this.
