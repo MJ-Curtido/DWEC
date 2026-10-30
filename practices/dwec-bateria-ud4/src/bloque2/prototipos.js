@@ -49,5 +49,15 @@ export function crearDesde(base, nombre) {
 //        niveles({}) → 1 (Object.prototype) · niveles(Object.create(null)) → 0 · niveles(new Lector("x")) → 2
 //        (pista: Object.getPrototypeOf en un bucle)
 export function niveles(objeto) {
-	throw new Error('Sin hacer');
+	let cont = 0;
+
+	let prot = Object.getPrototypeOf(objeto);
+
+	while (prot !== null) {
+		cont++;
+
+		prot = Object.getPrototypeOf(prot);
+	}
+
+	return cont;
 }
