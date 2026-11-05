@@ -77,7 +77,7 @@ export class Columna {
 	//     prioridad, el límite más cercano; las que no tienen límite, al final.
 	//     Pista: [...this.#tareas].sort((a, b) => …) — ¿por qué la copia?
 	ordenadas() {
-    return this.tareas.sort((a, b) => b.peso - a.peso || (a.limite === null) - (b.limite === null) || a.limite - b.limite)
+		return this.tareas.sort((a, b) => b.peso - a.peso || (a.limite === null) - (b.limite === null) || a.limite - b.limite);
 
 		// return [...this.tareas].sort((a, b) => {
 		// 	if (a.peso !== b.peso) {
