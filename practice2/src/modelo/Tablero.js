@@ -102,10 +102,13 @@ export class Tablero {
 		const task = this.buscar(id);
 		if (!task) throw new Error(`Task ${id} not found.`);
 
-		const column = this.columna(destino);
-		if (column.llena) throw new Error(`Column ${column} llena.`);
+		const columnFrom = this.dondeEsta(id);
+		if (columnFrom.nombre === 'Hecho' || columnFrom.nombre === destino) throw new MovimientoNoPermitidoError(id, columnFrom.nombre, destino);
 
-		return column.añadir(this.dondeEsta(id).quitar(id));
+		const columnTo = this.columna(destino);
+		if (columnTo.llena) throw new ColumnaLlenaError(columnTo.nombre, columnTo.limiteWip);
+
+		return columnTo.añadir(columnFrom.quitar(id));
 	}
 
 	// completar(id): la mueve a «Hecho» y añade a «Por hacer» lo que devuelva tarea.alCompletar()
@@ -125,7 +128,7 @@ export class Tablero {
 		const columnPorHacer = this.columna('Por hacer');
 		const columnEnCurso = this.columna('En curso');
 		const columnHecho = this.columna('Hecho');
-		const vencidas = [...columnPorHacer.tareas, ...columnEnCurso.tareas].filter((t) => t.estaVencida());
+		const vencidas = [...columnPorHacer.tareas, ...columnEnCurso.tareas].filter((t) => t.estaVencida(hoy));
 
 		return {
 			porHacer: columnPorHacer.tareas.length,
