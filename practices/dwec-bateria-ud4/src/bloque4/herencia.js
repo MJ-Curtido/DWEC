@@ -4,16 +4,16 @@
 
 // 👀 EJEMPLO RESUELTO: la clase base ──────────────────────────────────────────
 export class Publicacion {
-  constructor(titulo, anio) {
-    this.titulo = titulo;
-    this.anio = anio;
-  }
-  descripcion() {
-    return `${this.titulo} (${this.anio})`;
-  }
-  diasPrestamo() {
-    return 14;
-  }
+	constructor(titulo, anio) {
+		this.titulo = titulo;
+		this.anio = anio;
+	}
+	descripcion() {
+		return `${this.titulo} (${this.anio})`;
+	}
+	diasPrestamo() {
+		return 14;
+	}
 }
 
 // ✍️ TU TURNO ─────────────────────────────────────────────────────────────────
@@ -21,28 +21,53 @@ export class Publicacion {
 //        new Libro("Momo", 1973, "Ende").descripcion() → "Momo (1973) · Ende"
 //        Reutiliza la descripción de la base con super: no vuelvas a escribir el título y el año.
 export class Libro extends Publicacion {
-  constructor(titulo, anio, autor) {
-    super(titulo, anio);
-    throw new Error("Sin hacer");
-  }
+	constructor(titulo, anio, autor) {
+		super(titulo, anio);
+		this.autor = autor;
+	}
+
+	descripcion() {
+		return `${super.descripcion()} · ${this.autor}`;
+	}
 }
 
 // ✍️ 2 · Revista hereda de Publicacion y añade el número. Se presta solo 7 días.
 //        new Revista("Muy Interesante", 2026, 512).descripcion() → "Muy Interesante (2026) · nº 512"
 export class Revista extends Publicacion {
-  constructor(titulo, anio, numero) {
-    super(titulo, anio);
-    throw new Error("Sin hacer");
-  }
+	constructor(titulo, anio, numero) {
+		super(titulo, anio);
+
+		this.numero = numero;
+	}
+
+	diasPrestamo() {
+		return 7;
+	}
+
+	descripcion() {
+		return `${super.descripcion()} · nº ${this.numero}`;
+	}
 }
 
 // ✍️ 3 · La descripción de cada publicación de la lista. Sin preguntar de qué tipo es cada una:
 //        cada objeto ya sabe describirse (eso es el polimorfismo).
 export function catalogo(publicaciones) {
-  throw new Error("Sin hacer");
+	const descriptions = [];
+
+	for (const post of publicaciones) {
+		descriptions.push(post.descripcion());
+	}
+
+	return descriptions;
 }
 
 // ✍️ 4 · La suma de los días de préstamo de todas.   [libro, revista, revista] → 14 + 7 + 7 = 28
 export function diasTotales(publicaciones) {
-  throw new Error("Sin hacer");
+	let sum = 0;
+
+	for (const post of publicaciones) {
+		sum += post.diasPrestamo();
+	}
+
+	return sum;
 }
