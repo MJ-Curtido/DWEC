@@ -5,18 +5,18 @@
 // 👀 EJEMPLO RESUELTO: un error propio ────────────────────────────────────────
 // Heredar de Error permite distinguir «un préstamo no permitido» (se le explica al usuario) de un fallo del programa.
 export class PrestamoError extends Error {
-  constructor(mensaje, isbn) {
-    super(mensaje);
-    this.name = this.constructor.name; // "PrestamoError"
-    this.isbn = isbn;
-  }
+	constructor(mensaje, isbn) {
+		super(mensaje);
+		this.name = this.constructor.name; // "PrestamoError"
+		this.isbn = isbn;
+	}
 }
 
 // 🪜 ESCALERA ──────────────────────────────────────────────────────────────────
 // 🪜 1 · La fecha con formato español: formatoFecha(new Date(2026, 10, 3)) → "03/11/2026"
 //        (pista: Intl.DateTimeFormat("es-ES", { day: "2-digit", month: "2-digit", year: "numeric" }))
 export function formatoFecha(fecha) {
-  throw new Error("Sin hacer");
+	return Intl.DateTimeFormat('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(fecha);
 }
 
 // ✍️ TU TURNO ─────────────────────────────────────────────────────────────────
@@ -24,7 +24,7 @@ export function formatoFecha(fecha) {
 //        - No cambies `desde` (trabaja sobre una copia).
 //        - Suma días con setDate, no milisegundos: el 25/10 cambia la hora y ese día dura 25 h.
 export function fechaDevolucion(desde, dias) {
-  throw new Error("Sin hacer");
+	throw new Error('Sin hacer');
 }
 
 // ✍️ 2 · Un Socio TIENE préstamos (composición): guárdalos en un Map PRIVADO isbn → fecha de devolución.
@@ -36,7 +36,7 @@ export function fechaDevolucion(desde, dias) {
 //   - vencidos(hoy) → los isbn cuya fecha de devolución es ANTERIOR al día de hoy. Cuenta por días: lo que vence
 //     hoy aún no está vencido, sea la hora que sea.
 export class Socio {
-  constructor(nombre, maximo = 3) {
-    throw new Error("Sin hacer");
-  }
+	constructor(nombre, maximo = 3) {
+		throw new Error('Sin hacer');
+	}
 }
