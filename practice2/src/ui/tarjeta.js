@@ -35,7 +35,7 @@ export function pintarLista(contenedor, tareas, hoy = new Date()) {
     contenedor.append(noTasks)
 	} else {
 		for (const task of tareas) {
-			const card = crearTarjeta(task, task.limite);
+			const card = crearTarjeta(task, hoy);
 			contenedor.append(card);
 		}
 	}
