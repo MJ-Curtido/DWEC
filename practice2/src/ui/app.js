@@ -90,6 +90,19 @@ export function iniciarApp(raiz, tablero, { hoy = null, alCambiar = () => {} } =
 	//   Cualquier otro error → se relanza (es un fallo del programa).
 	//   Pista: una función cambiar(accion) con el try/catch te sirve también para el B6.
 
+	//TODO: Tengo que meter el delegar en un for, para que dependiendo de la columna se ponga unos metodos u otro, y tengo que ver donde meter esto, no djarlo ahí tal cual supongo.
+	function change(action) {
+		try {
+			
+		} catch (e) {
+			avisar(e.message)
+		}
+	}
+	delegar(lista, "click", "button[data-accion]", anotar);
+
+	//delegar(contenedor, tipo, selector, manejador)
+	//const anotar = (boton, evento) => pulsados.push([boton.dataset.accion, evento.type]);
+
 	// ✍️ B6 · submit de `form`: preventDefault, leerFormulario, validar y mostrarErrores. Si hay errores,
 	//   no se crea nada. Si no, tablero.crearTarea(datos) (como un cambio más) y form.reset().
 
