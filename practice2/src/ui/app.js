@@ -21,7 +21,26 @@ const ACCIONES = {
 //   - cadaDias (si viene): entero mayor que 0. Si es correcto pero no hay limite, el error va
 //     en «limite»: una tarea que se repite necesita fecha límite
 export function validar(datos) {
-  throw new Error("Sin hacer");
+  const result = {};
+
+  if (!datos.titulo || datos.titulo.length > 80) {
+    result.titulo =
+      "El título es obligatorio y tiene que tener menos de 80 caracteres";
+  }
+
+  if (Number.isInteger(datos.cadaDias) && datos.cadaDias > 0 && !datos.limite) {
+    result.limite = "Una tarea que se repite necesita fecha límite";
+  }
+
+  if (
+    datos.cadaDias !== undefined &&
+    (!Number.isInteger(datos.cadaDias) || datos.cadaDias <= 0)
+  ) {
+    result.cadaDias =
+      "Una tarea se puede repetir si es cada días positivos y enteros";
+  }
+
+  return result;
 }
 
 /**
