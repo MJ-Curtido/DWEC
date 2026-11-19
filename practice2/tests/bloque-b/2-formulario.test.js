@@ -5,7 +5,8 @@ import { cargarPagina } from "../pagina.js";
 
 let form;
 const rellenar = (valores) => {
-  for (const [campo, valor] of Object.entries(valores)) form.elements[campo].value = valor;
+  for (const [campo, valor] of Object.entries(valores))
+    form.elements[campo].value = valor;
 };
 beforeEach(() => {
   cargarPagina();
@@ -43,15 +44,21 @@ describe("👀 B0 · leerFormulario (ejemplo resuelto)", () => {
 describe("✍️ B2 · mostrarErrores", () => {
   test("escribe el mensaje en su <p data-error-de> y marca el campo con aria-invalid", () => {
     mostrarErrores(form, { titulo: "Escribe un título" });
-    expect(form.querySelector('[data-error-de="titulo"]').textContent).toBe("Escribe un título");
+    expect(form.querySelector('[data-error-de="titulo"]').textContent).toBe(
+      "Escribe un título",
+    );
     expect(form.elements.titulo.getAttribute("aria-invalid")).toBe("true");
     expect(form.elements.limite.hasAttribute("aria-invalid")).toBe(false);
   });
 
   test("con varios errores, todos", () => {
     mostrarErrores(form, { limite: "Falta", cadaDias: "Mal" });
-    expect(form.querySelector('[data-error-de="limite"]').textContent).toBe("Falta");
-    expect(form.querySelector('[data-error-de="cadaDias"]').textContent).toBe("Mal");
+    expect(form.querySelector('[data-error-de="limite"]').textContent).toBe(
+      "Falta",
+    );
+    expect(form.querySelector('[data-error-de="cadaDias"]').textContent).toBe(
+      "Mal",
+    );
   });
 
   test("al volver a llamarla, limpia los errores que ya no están", () => {

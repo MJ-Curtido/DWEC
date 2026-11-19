@@ -4,11 +4,16 @@ import { Tarea } from "../../src/modelo/Tarea.js";
 import { TareaRecurrente } from "../../src/modelo/TareaRecurrente.js";
 
 const DATOS = [
-  { titulo: "Diseñar la base de datos", prioridad: "alta", limite: "2026-11-01" },
+  {
+    titulo: "Diseñar la base de datos",
+    prioridad: "alta",
+    limite: "2026-11-01",
+  },
   { titulo: "Escribir el README" },
   { titulo: "Copia de seguridad", limite: "2026-11-21", cadaDias: 7 },
 ];
-const id = (t, titulo) => t.columnas.flatMap((c) => c.tareas).find((x) => x.titulo === titulo).id;
+const id = (t, titulo) =>
+  t.columnas.flatMap((c) => c.tareas).find((x) => x.titulo === titulo).id;
 /** Un tablero con algo en cada columna */
 function usado() {
   const t = Tablero.desde(DATOS, 2);
@@ -17,7 +22,8 @@ function usado() {
   return t;
 }
 const idaYVuelta = (t) => Tablero.desdeJSON(JSON.parse(JSON.stringify(t)));
-const foto = (t) => t.columnas.map((c) => c.tareas.map((x) => [x.id, x.titulo]));
+const foto = (t) =>
+  t.columnas.map((c) => c.tareas.map((x) => [x.id, x.titulo]));
 
 describe("✍️ C3 · Tarea con id", () => {
   test("se puede crear con un id y lo conserva", () => {
@@ -45,7 +51,11 @@ describe("✍️ C4 · toJSON y desdeJSON", () => {
     const datos = JSON.parse(JSON.stringify(usado()));
     expect(datos.version).toBe(1);
     expect(datos.limiteEnCurso).toBe(2);
-    expect(Object.keys(datos.columnas)).toEqual(["Por hacer", "En curso", "Hecho"]);
+    expect(Object.keys(datos.columnas)).toEqual([
+      "Por hacer",
+      "En curso",
+      "Hecho",
+    ]);
     expect(datos.columnas["En curso"][0]).toMatchObject({
       titulo: "Escribir el README",
       limite: null,
@@ -76,7 +86,9 @@ describe("✍️ C4 · toJSON y desdeJSON", () => {
       "Copia de seguridad",
       "Escribir el README",
     ]);
-    expect(() => copia.mover(id(copia, "Escribir el README"), "Por hacer")).toThrow();
+    expect(() =>
+      copia.mover(id(copia, "Escribir el README"), "Por hacer"),
+    ).toThrow();
   });
 
   test("una tarea nueva después de recuperar no repite id", () => {

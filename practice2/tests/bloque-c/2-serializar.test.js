@@ -1,5 +1,9 @@
 import { describe, expect, test } from "vitest";
-import { aDatos, desdeDatos, fechaATexto } from "../../src/modelo/serializar.js";
+import {
+  aDatos,
+  desdeDatos,
+  fechaATexto,
+} from "../../src/modelo/serializar.js";
 import { Tarea } from "../../src/modelo/Tarea.js";
 import { TareaRecurrente } from "../../src/modelo/TareaRecurrente.js";
 
@@ -33,7 +37,11 @@ describe("👀 C0 · aDatos (ejemplo resuelto)", () => {
 
   test("una recurrente lleva además cadaDias", () => {
     const r = new TareaRecurrente("Regar", "media", "2026-11-21", 3);
-    expect(aDatos(r)).toMatchObject({ titulo: "Regar", limite: "2026-11-21", cadaDias: 3 });
+    expect(aDatos(r)).toMatchObject({
+      titulo: "Regar",
+      limite: "2026-11-21",
+      cadaDias: 3,
+    });
   });
 
   test("el resultado sobrevive a JSON (JSON.stringify de la tarea a secas daría {})", () => {
@@ -45,7 +53,11 @@ describe("👀 C0 · aDatos (ejemplo resuelto)", () => {
 
 describe("✍️ C1 · desdeDatos", () => {
   test("vuelve a ser una Tarea de verdad, con sus métodos y su Date", () => {
-    const t = desdeDatos({ titulo: "Entregar", prioridad: "alta", limite: "2026-11-25" });
+    const t = desdeDatos({
+      titulo: "Entregar",
+      prioridad: "alta",
+      limite: "2026-11-25",
+    });
     expect(t).toBeInstanceOf(Tarea);
     expect(t.limite).toBeInstanceOf(Date);
     expect(t.limite.getDate()).toBe(25);

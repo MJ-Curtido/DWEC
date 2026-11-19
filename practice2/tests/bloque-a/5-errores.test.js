@@ -56,8 +56,12 @@ describe("✍️ A5 · Reglas de movimiento", () => {
     const t = nuevo();
     const readme = id(t, "Escribir el README");
     t.completar(readme);
-    expect(() => t.mover(readme, "Por hacer")).toThrow(MovimientoNoPermitidoError);
-    expect(() => t.mover(readme, "En curso")).toThrow(MovimientoNoPermitidoError);
+    expect(() => t.mover(readme, "Por hacer")).toThrow(
+      MovimientoNoPermitidoError,
+    );
+    expect(() => t.mover(readme, "En curso")).toThrow(
+      MovimientoNoPermitidoError,
+    );
     expect(t.dondeEsta(readme).nombre).toBe("Hecho");
   });
 
@@ -80,7 +84,9 @@ describe("✍️ A5 · Reglas de movimiento", () => {
     const t = nuevo(1);
     const readme = id(t, "Escribir el README");
     t.mover(readme, "En curso"); // «En curso» llena
-    expect(() => t.mover(readme, "En curso")).toThrow(MovimientoNoPermitidoError);
+    expect(() => t.mover(readme, "En curso")).toThrow(
+      MovimientoNoPermitidoError,
+    );
   });
 
   test("los movimientos permitidos siguen funcionando", () => {

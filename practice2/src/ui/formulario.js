@@ -7,14 +7,14 @@
  * cadaDias un número o undefined (si está vacío).
  */
 export function leerFormulario(form) {
-	const campos = Object.fromEntries(new FormData(form));
-	const datos = {
-		titulo: (campos.titulo ?? '').trim(),
-		prioridad: campos.prioridad,
-		limite: campos.limite ? campos.limite : null,
-	};
-	if (campos.cadaDias?.trim()) datos.cadaDias = Number(campos.cadaDias);
-	return datos;
+  const campos = Object.fromEntries(new FormData(form));
+  const datos = {
+    titulo: (campos.titulo ?? "").trim(),
+    prioridad: campos.prioridad,
+    limite: campos.limite ? campos.limite : null,
+  };
+  if (campos.cadaDias?.trim()) datos.cadaDias = Number(campos.cadaDias);
+  return datos;
 }
 
 // ✍️ B2 · mostrarErrores(form, errores)   errores = { campo: "mensaje" }
@@ -24,21 +24,21 @@ export function leerFormulario(form) {
 //   - Si no lo tiene: <p> vacío y SIN aria-invalid (removeAttribute)
 //   Pista: p.dataset.errorDe es el nombre del campo (data-error-de → dataset.errorDe)
 export function mostrarErrores(form, errores) {
-	const listErrorElements = form.querySelectorAll('[data-error-de]');
+  const listErrorElements = form.querySelectorAll("[data-error-de]");
 
-	for (const p of listErrorElements) {
-		const field = p.dataset.errorDe;
-		const msg = errores[field];
-		const control = form.elements[field];
+  for (const p of listErrorElements) {
+    const field = p.dataset.errorDe;
+    const msg = errores[field];
+    const control = form.elements[field];
 
-		if (msg) {
-			p.textContent = msg;
+    if (msg) {
+      p.textContent = msg;
 
-			control.setAttribute('aria-invalid', true);
-		} else {
-			p.replaceChildren();
+      control.setAttribute("aria-invalid", true);
+    } else {
+      p.replaceChildren();
 
-			control.removeAttribute('aria-invalid');
-		}
-	}
+      control.removeAttribute("aria-invalid");
+    }
+  }
 }

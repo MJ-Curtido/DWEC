@@ -24,7 +24,9 @@ describe("👀 B0 · crearTarjeta (ejemplo resuelto)", () => {
   test("marca las vencidas y enseña el límite", () => {
     const tarjeta = crearTarjeta(tareas()[0], HOY);
     expect(tarjeta.classList.contains("tarjeta--vencida")).toBe(true);
-    expect(tarjeta.querySelector(".tarjeta__limite").textContent).toBe("Límite: 01/11/2026");
+    expect(tarjeta.querySelector(".tarjeta__limite").textContent).toBe(
+      "Límite: 01/11/2026",
+    );
   });
 
   test("el título se escribe como texto: el HTML del usuario no se ejecuta", () => {
@@ -44,7 +46,9 @@ describe("✍️ B1 · pintarLista", () => {
 
   test("pone una tarjeta por tarea, en el mismo orden", () => {
     pintarLista(lista, tareas(), HOY);
-    const titulos = [...lista.querySelectorAll(".tarjeta h3")].map((h) => h.textContent);
+    const titulos = [...lista.querySelectorAll(".tarjeta h3")].map(
+      (h) => h.textContent,
+    );
     expect(titulos).toEqual(["Uno", "Dos", "Tres"]);
   });
 
@@ -65,6 +69,8 @@ describe("✍️ B1 · pintarLista", () => {
   test("usa crearTarjeta: las tarjetas llevan data-id", () => {
     const ts = tareas();
     pintarLista(lista, ts, HOY);
-    expect([...lista.children].map((c) => Number(c.dataset.id))).toEqual(ts.map((t) => t.id));
+    expect([...lista.children].map((c) => Number(c.dataset.id))).toEqual(
+      ts.map((t) => t.id),
+    );
   });
 });

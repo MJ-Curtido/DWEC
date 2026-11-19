@@ -13,9 +13,9 @@ describe("✍️ C2 · obtenerJSON (async/await)", () => {
   });
 
   test("un 404 lanza un Error que dice el código", async () => {
-    await expect(obtenerJSON("/no.json", fetchFalso({ estado: 404, cuerpo: "" }))).rejects.toThrow(
-      /404.*\/no\.json|\/no\.json.*404/,
-    );
+    await expect(
+      obtenerJSON("/no.json", fetchFalso({ estado: 404, cuerpo: "" })),
+    ).rejects.toThrow(/404.*\/no\.json|\/no\.json.*404/);
   });
 
   test("un 200 que NO es JSON (Vite devuelve index.html si el fichero no existe) también lanza", async () => {
@@ -24,6 +24,8 @@ describe("✍️ C2 · obtenerJSON (async/await)", () => {
   });
 
   test("sin red, el error llega a quien llama (no se lo traga)", async () => {
-    await expect(obtenerJSON("/x.json", fetchSinRed)).rejects.toThrow(TypeError);
+    await expect(obtenerJSON("/x.json", fetchSinRed)).rejects.toThrow(
+      TypeError,
+    );
   });
 });

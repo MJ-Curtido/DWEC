@@ -13,7 +13,8 @@ beforeEach(() => {
   lista = document.querySelector("#lista");
   pulsados = [];
 });
-const anotar = (boton, evento) => pulsados.push([boton.dataset.accion, evento.type]);
+const anotar = (boton, evento) =>
+  pulsados.push([boton.dataset.accion, evento.type]);
 
 describe("✍️ B3 · delegar", () => {
   test("un clic en el botón llama al manejador con el botón y el evento", () => {

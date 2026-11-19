@@ -32,7 +32,8 @@ export class Tarea {
   set titulo(valor) {
     if (typeof valor !== "string" || valor.trim() === "")
       throw new TypeError("La tarea necesita un título");
-    if (valor.trim().length > 80) throw new RangeError("El título no puede pasar de 80 caracteres");
+    if (valor.trim().length > 80)
+      throw new RangeError("El título no puede pasar de 80 caracteres");
     this.#titulo = valor.trim();
   }
 
@@ -41,7 +42,8 @@ export class Tarea {
   }
 
   set prioridad(valor) {
-    if (!Tarea.PRIORIDADES.includes(valor)) throw new RangeError(`Prioridad desconocida: ${valor}`);
+    if (!Tarea.PRIORIDADES.includes(valor))
+      throw new RangeError(`Prioridad desconocida: ${valor}`);
     this.#prioridad = valor;
   }
 

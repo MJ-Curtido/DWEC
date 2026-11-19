@@ -14,13 +14,20 @@ export function almacenFalso(inicial = {}) {
 }
 
 /** Un fetch que responde siempre lo mismo. Guarda las URL pedidas en .pedidas */
-export function fetchFalso({ estado = 200, tipo = "application/json", cuerpo = [] } = {}) {
+export function fetchFalso({
+  estado = 200,
+  tipo = "application/json",
+  cuerpo = [],
+} = {}) {
   const fn = async (url) => {
     fn.pedidas.push(url);
-    return new Response(typeof cuerpo === "string" ? cuerpo : JSON.stringify(cuerpo), {
-      status: estado,
-      headers: { "content-type": tipo },
-    });
+    return new Response(
+      typeof cuerpo === "string" ? cuerpo : JSON.stringify(cuerpo),
+      {
+        status: estado,
+        headers: { "content-type": tipo },
+      },
+    );
   };
   fn.pedidas = [];
   return fn;

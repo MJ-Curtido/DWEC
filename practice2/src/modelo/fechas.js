@@ -11,13 +11,19 @@ export function parsearFecha(texto) {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(texto));
   if (!m) throw new TypeError(`Fecha no válida: ${texto} (usa AAAA-MM-DD)`);
   const fecha = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
-  if (fecha.getMonth() !== Number(m[2]) - 1) throw new RangeError(`Esa fecha no existe: ${texto}`);
+  if (fecha.getMonth() !== Number(m[2]) - 1)
+    throw new RangeError(`Esa fecha no existe: ${texto}`);
   return fecha;
 }
 
 /** La fecha a las 00:00 (para comparar días sin que estorben las horas) */
-export const soloDia = (fecha) => new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate());
+export const soloDia = (fecha) =>
+  new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate());
 
 /** Date → "23/10/2026" */
 export const formatear = (fecha) =>
-  fecha.toLocaleDateString("es-ES", { day: "2-digit", month: "2-digit", year: "numeric" });
+  fecha.toLocaleDateString("es-ES", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });

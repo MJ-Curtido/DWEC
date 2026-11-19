@@ -53,7 +53,9 @@ describe("✍️ B5 · Acciones con delegación", () => {
 
   test("pulsar el texto de dentro del botón también vale (closest)", () => {
     montar();
-    const boton = tarjeta("Escribir el README").querySelector('[data-accion="empezar"]');
+    const boton = tarjeta("Escribir el README").querySelector(
+      '[data-accion="empezar"]',
+    );
     boton.append(document.createElement("span"));
     boton.querySelector("span").click();
     expect(titulos("En curso")).toEqual(["Escribir el README"]);

@@ -1,16 +1,25 @@
 import { describe, expect, test } from "vitest";
-import { arrancar, CLAVE, guardarTablero } from "../../src/datos/persistencia.js";
+import {
+  arrancar,
+  CLAVE,
+  guardarTablero,
+} from "../../src/datos/persistencia.js";
 import { Tablero } from "../../src/modelo/Tablero.js";
 import { almacenFalso, fetchFalso, fetchSinRed } from "../simulados.js";
 
-const INICIALES = [{ titulo: "Inicial 1", prioridad: "alta" }, { titulo: "Inicial 2" }];
+const INICIALES = [
+  { titulo: "Inicial 1", prioridad: "alta" },
+  { titulo: "Inicial 2" },
+];
 const titulos = (t) => t.columnas.flatMap((c) => c.tareas).map((x) => x.titulo);
 
 describe("✍️ C5 · guardarTablero", () => {
   test(`guarda el tablero como JSON en la clave «${CLAVE}»`, () => {
     const s = almacenFalso();
     guardarTablero(Tablero.desde([{ titulo: "A" }]), s);
-    expect(JSON.parse(s.getItem(CLAVE)).columnas["Por hacer"][0].titulo).toBe("A");
+    expect(JSON.parse(s.getItem(CLAVE)).columnas["Por hacer"][0].titulo).toBe(
+      "A",
+    );
   });
 });
 
@@ -39,13 +48,21 @@ describe("✍️ C6 · arrancar", () => {
 
   test("lo guardado está roto (no es JSON): se ignora y se descargan las iniciales", async () => {
     const s = almacenFalso({ [CLAVE]: "{roto" });
-    const { origen } = await arrancar({ storage: s, fetchFn: fetchFalso({ cuerpo: INICIALES }) });
+    const { origen } = await arrancar({
+      storage: s,
+      fetchFn: fetchFalso({ cuerpo: INICIALES }),
+    });
     expect(origen).toBe("inicial");
   });
 
   test("lo guardado es de otra versión: se BORRA y se descargan las iniciales", async () => {
-    const s = almacenFalso({ [CLAVE]: JSON.stringify({ version: 99, columnas: {} }) });
-    const { origen } = await arrancar({ storage: s, fetchFn: fetchFalso({ cuerpo: INICIALES }) });
+    const s = almacenFalso({
+      [CLAVE]: JSON.stringify({ version: 99, columnas: {} }),
+    });
+    const { origen } = await arrancar({
+      storage: s,
+      fetchFn: fetchFalso({ cuerpo: INICIALES }),
+    });
     expect(origen).toBe("inicial");
     expect(s.getItem(CLAVE)).toBeNull();
   });
@@ -63,14 +80,21 @@ describe("✍️ C6 · arrancar", () => {
 
   test("respuesta que no es JSON: también «vacio» con su error", async () => {
     const f = fetchFalso({ tipo: "text/html", cuerpo: "<!doctype html>" });
-    const { origen, error } = await arrancar({ storage: almacenFalso(), fetchFn: f });
+    const { origen, error } = await arrancar({
+      storage: almacenFalso(),
+      fetchFn: f,
+    });
     expect(origen).toBe("vacio");
     expect(error).toMatch(/JSON/);
   });
 
   test("el límite WIP de las iniciales se puede elegir", async () => {
     const f = fetchFalso({ cuerpo: INICIALES });
-    const { tablero } = await arrancar({ storage: almacenFalso(), fetchFn: f, limiteEnCurso: 5 });
+    const { tablero } = await arrancar({
+      storage: almacenFalso(),
+      fetchFn: f,
+      limiteEnCurso: 5,
+    });
     expect(tablero.columna("En curso").limiteWip).toBe(5);
   });
 });

@@ -2,7 +2,8 @@ import { describe, expect, test } from "vitest";
 import { Tarea } from "../../src/modelo/Tarea.js";
 import { TareaRecurrente } from "../../src/modelo/TareaRecurrente.js";
 
-const semanal = () => new TareaRecurrente("Sacar la basura", "media", "2026-10-23", 7);
+const semanal = () =>
+  new TareaRecurrente("Sacar la basura", "media", "2026-10-23", 7);
 
 describe("✍️ A1 · TareaRecurrente extends Tarea", () => {
   test("es una Tarea (herencia de verdad)", () => {
@@ -16,12 +17,18 @@ describe("✍️ A1 · TareaRecurrente extends Tarea", () => {
     const t = semanal();
     expect(t.cadaDias).toBe(7);
     expect(t.prioridad).toBe("media");
-    expect(() => new TareaRecurrente("", "media", "2026-10-23", 7)).toThrow(TypeError);
+    expect(() => new TareaRecurrente("", "media", "2026-10-23", 7)).toThrow(
+      TypeError,
+    );
   });
 
   test("cadaDias tiene que ser un entero ≥ 1, y hace falta límite", () => {
-    expect(() => new TareaRecurrente("A", "media", "2026-10-23", 0)).toThrow(RangeError);
-    expect(() => new TareaRecurrente("A", "media", "2026-10-23", 1.5)).toThrow(RangeError);
+    expect(() => new TareaRecurrente("A", "media", "2026-10-23", 0)).toThrow(
+      RangeError,
+    );
+    expect(() => new TareaRecurrente("A", "media", "2026-10-23", 1.5)).toThrow(
+      RangeError,
+    );
     expect(() => new TareaRecurrente("A", "media", null, 3)).toThrow(TypeError);
   });
 
@@ -51,6 +58,8 @@ describe("✍️ A1 · TareaRecurrente extends Tarea", () => {
 
   test("toString añade «🔁 cada N días» al del padre (usa super)", () => {
     const t = semanal();
-    expect(String(t)).toBe(`#${t.id} [media] Sacar la basura · límite 23/10/2026 · 🔁 cada 7 días`);
+    expect(String(t)).toBe(
+      `#${t.id} [media] Sacar la basura · límite 23/10/2026 · 🔁 cada 7 días`,
+    );
   });
 });

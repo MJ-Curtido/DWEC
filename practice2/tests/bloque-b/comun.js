@@ -5,7 +5,11 @@ import { cargarPagina } from "../pagina.js";
 
 export const HOY = new Date(2026, 10, 6); // viernes 06/11/2026
 export const DATOS = [
-  { titulo: "Diseñar la base de datos", prioridad: "alta", limite: "2026-11-01" },
+  {
+    titulo: "Diseñar la base de datos",
+    prioridad: "alta",
+    limite: "2026-11-01",
+  },
   { titulo: "Escribir el README" },
   { titulo: "Copia de seguridad", limite: "2026-11-09", cadaDias: 7 },
   { titulo: "Revisar el CSS", prioridad: "baja" },

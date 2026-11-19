@@ -24,9 +24,12 @@ describe("✍️ B4 · Pintar el tablero", () => {
 
   test("botones de cada tarjeta según la columna (type=button con data-accion)", () => {
     montar();
-    const acciones = (t) => [...tarjeta(t).querySelectorAll("button")].map((b) => b.dataset.accion);
+    const acciones = (t) =>
+      [...tarjeta(t).querySelectorAll("button")].map((b) => b.dataset.accion);
     expect(acciones("Escribir el README")).toEqual(["empezar"]);
-    expect(tarjeta("Escribir el README").querySelector("button").type).toBe("button");
+    expect(tarjeta("Escribir el README").querySelector("button").type).toBe(
+      "button",
+    );
     pulsar("Escribir el README", "empezar");
     expect(acciones("Escribir el README")).toEqual(["volver", "completar"]);
     pulsar("Escribir el README", "completar");
@@ -35,8 +38,14 @@ describe("✍️ B4 · Pintar el tablero", () => {
 
   test("la vencida (01/11) lleva tarjeta--vencida", () => {
     montar();
-    expect(tarjeta("Diseñar la base de datos").classList.contains("tarjeta--vencida")).toBe(true);
-    expect(tarjeta("Escribir el README").classList.contains("tarjeta--vencida")).toBe(false);
+    expect(
+      tarjeta("Diseñar la base de datos").classList.contains(
+        "tarjeta--vencida",
+      ),
+    ).toBe(true);
+    expect(
+      tarjeta("Escribir el README").classList.contains("tarjeta--vencida"),
+    ).toBe(false);
   });
 
   test("resumen: progreso en % (hechas sobre el total) y cuántas están vencidas", () => {

@@ -5,7 +5,11 @@ import { Tarea } from "../../src/modelo/Tarea.js";
 import { TareaRecurrente } from "../../src/modelo/TareaRecurrente.js";
 
 const DATOS = [
-  { titulo: "Diseñar la base de datos", prioridad: "alta", limite: "2026-10-20" },
+  {
+    titulo: "Diseñar la base de datos",
+    prioridad: "alta",
+    limite: "2026-10-20",
+  },
   { titulo: "Escribir el README" },
   { titulo: "Copia de seguridad", limite: "2026-10-23", cadaDias: 7 },
   { titulo: "Revisar el CSS", prioridad: "baja" },
@@ -17,7 +21,11 @@ const id = (tablero, titulo) =>
 describe("✍️ A3 · Tablero (TIENE columnas: composición)", () => {
   test("tres columnas fijas; «En curso» con su límite WIP", () => {
     const t = new Tablero(3);
-    expect(t.columnas.map((c) => c.nombre)).toEqual(["Por hacer", "En curso", "Hecho"]);
+    expect(t.columnas.map((c) => c.nombre)).toEqual([
+      "Por hacer",
+      "En curso",
+      "Hecho",
+    ]);
     expect(t.columnas.every((c) => c instanceof Columna)).toBe(true);
     expect(t.columna("En curso").limiteWip).toBe(3);
     expect(() => t.columna("Bloqueado")).toThrow(/Bloqueado/);
@@ -77,7 +85,9 @@ describe("✍️ A3 · Tablero (TIENE columnas: composición)", () => {
   test("completar una recurrente: a «Hecho» y aparece la siguiente en «Por hacer» (polimorfismo)", () => {
     const t = nuevo();
     t.completar(id(t, "Copia de seguridad"));
-    const nueva = t.columna("Por hacer").tareas.find((x) => x.titulo === "Copia de seguridad");
+    const nueva = t
+      .columna("Por hacer")
+      .tareas.find((x) => x.titulo === "Copia de seguridad");
     expect(nueva).toBeInstanceOf(TareaRecurrente);
     expect(nueva.limite.getDate()).toBe(30);
     expect(t.columna("Hecho").tareas[0].limite.getDate()).toBe(23);

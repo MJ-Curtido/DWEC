@@ -6,11 +6,11 @@
 //   - constructor(mensaje): llama al padre con el mensaje
 //   - name = el nombre de la clase. Pista: this.constructor.name también vale en las subclases.
 export class ErrorTablero extends Error {
-	constructor(mensaje) {
-		super(mensaje);
+  constructor(mensaje) {
+    super(mensaje);
 
-		this.name = this.constructor.name;
-	}
+    this.name = this.constructor.name;
+  }
 }
 
 // ColumnaLlenaError extends ErrorTablero
@@ -18,24 +18,24 @@ export class ErrorTablero extends Error {
 //   - mensaje: «En curso» está llena (máximo 2)   ← que diga «llena», el nombre y el límite
 //   - guarda this.columna (el NOMBRE, un string) y this.limite
 export class ColumnaLlenaError extends ErrorTablero {
-	constructor(columna) {
-		const { nombre, limiteWip } = columna;
+  constructor(columna) {
+    const { nombre, limiteWip } = columna;
 
-		super(`«${nombre}» está llena (máximo ${limiteWip})`);
+    super(`«${nombre}» está llena (máximo ${limiteWip})`);
 
-		this.columna = nombre;
-		this.limite = limiteWip;
-	}
+    this.columna = nombre;
+    this.limite = limiteWip;
+  }
 }
 
 // MovimientoNoPermitidoError extends ErrorTablero
 //   - constructor(id, desde, hasta): los dos últimos son nombres de columna
 //   - mensaje con el id de la tarea; guarda this.desde y this.hasta
 export class MovimientoNoPermitidoError extends ErrorTablero {
-	constructor(id, desde, hasta) {
-		super(`Error movement, task ${id}.`);
+  constructor(id, desde, hasta) {
+    super(`Error movement, task ${id}.`);
 
-		this.desde = desde;
-		this.hasta = hasta;
-	}
+    this.desde = desde;
+    this.hasta = hasta;
+  }
 }

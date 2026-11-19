@@ -2,7 +2,11 @@
 import { Tablero } from "../../src/modelo/Tablero.js";
 
 export const DATOS = [
-  { titulo: "Diseñar la base de datos", prioridad: "alta", limite: "2026-10-20" },
+  {
+    titulo: "Diseñar la base de datos",
+    prioridad: "alta",
+    limite: "2026-10-20",
+  },
   { titulo: "Escribir el README" },
   { titulo: "Copia de seguridad", limite: "2026-10-23", cadaDias: 7 },
   { titulo: "Revisar el CSS", prioridad: "baja", limite: "2026-10-28" },
@@ -13,4 +17,5 @@ export const nuevo = (limiteEnCurso = 2) => Tablero.desde(DATOS, limiteEnCurso);
 export const id = (tablero, titulo) =>
   tablero.columnas.flatMap((c) => c.tareas).find((t) => t.titulo === titulo).id;
 /** títulos de una columna, en el orden guardado */
-export const titulos = (tablero, columna) => tablero.columna(columna).tareas.map((t) => t.titulo);
+export const titulos = (tablero, columna) =>
+  tablero.columna(columna).tareas.map((t) => t.titulo);
