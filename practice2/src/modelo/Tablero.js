@@ -110,7 +110,10 @@ export class Tablero {
 
     const columnTo = this.columna(destino);
     if (columnTo.llena)
-      throw new ColumnaLlenaError(columnTo.nombre, columnTo.limiteWip);
+      throw new ColumnaLlenaError({
+        nombre: columnTo.nombre,
+        limiteWip: columnTo.limiteWip,
+      });
 
     return columnTo.añadir(columnFrom.quitar(id));
   }
@@ -162,10 +165,4 @@ export class Tablero {
 }
 
 // Comprueba con:  docker compose run --rm web npm test bloque-a
-(void Columna,
-  ColumnaLlenaError,
-  MovimientoNoPermitidoError,
-  Tarea,
-  TareaRecurrente,
-  aDatos,
-  desdeDatos); // (borra esta línea cuando los uses)
+(void aDatos, desdeDatos); // (borra esta línea cuando los uses)

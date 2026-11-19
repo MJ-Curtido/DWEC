@@ -72,7 +72,8 @@ export function iniciarApp(
       tablero.columna("Por hacer").tareas.length +
       tablero.columna("En curso").tareas.length +
       tablero.columna("Hecho").tareas.length;
-    progressHTML.textContent = `${(totalHecho / total) * 100} %`;
+    const percent = (totalHecho / total) * 100;
+    progressHTML.textContent = `${Math.round(percent * 100) / 100} %`;
 
     const defeatedHTML = resumen.querySelector('[data-dato="vencidas"]');
     const now = hoy ?? new Date();
@@ -160,8 +161,23 @@ export function iniciarApp(
   // ✍️ B6 · submit de `form`: preventDefault, leerFormulario, validar y mostrarErrores. Si hay errores,
   //   no se crea nada. Si no, tablero.crearTarea(datos) (como un cambio más) y form.reset().
 
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const data = leerFormulario(form);
+    const errors = validar(data);
+
+    if (Object.keys(errors).length === 0) {
+      tablero.crearTarea(data);
+
+      form.reset();
+      pintar();
+      alCambiar(tablero);
+    }
+
+    mostrarErrores(form, errors);
+  });
+
   pintar();
   return { pintar };
 }
-
-(void ACCIONES, ErrorTablero, delegar, leerFormulario, mostrarErrores); // (borra esta línea cuando los uses)
