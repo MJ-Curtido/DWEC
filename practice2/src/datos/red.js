@@ -8,10 +8,11 @@
 //   - Si todo va bien, devuelve respuesta.json()
 //   - Los errores de red (sin conexión) NO se capturan aquí: que le lleguen a quien llama
 export async function obtenerJSON(url, fetchFn = fetch) {
-	const res = await fetchFn(url);
+  const res = await fetchFn(url);
 
-	if (!res.ok) throw new Error(`${res.status}: ${url}`);
-	if (!res.headers.get('content-type').includes('application/json')) throw new Error(url);
+  if (!res.ok) throw new Error(`${res.status}: ${url}`);
+  if (!res.headers.get("content-type").includes("application/json"))
+    throw new Error(url);
 
-	return res.json();
+  return res.json();
 }

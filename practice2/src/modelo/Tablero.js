@@ -13,11 +13,13 @@ export class Tablero {
   // Privado: #columnas, un Map nombre → Columna
 
   #columnas;
+  #limiteEnCurso;
 
   // ✍️ A3 ──────────────────────────────────────────────────────────────────────
   constructor(limiteEnCurso = 3) {
     // Crea las tres columnas; solo «En curso» lleva límite WIP (limiteEnCurso)
     this.#columnas = new Map();
+    this.#limiteEnCurso = limiteEnCurso;
 
     for (const nameColumn of Tablero.COLUMNAS) {
       let column = null;
@@ -53,6 +55,10 @@ export class Tablero {
   // get columnas: array con las tres columnas, en orden
   get columnas() {
     return [...this.#columnas.values()];
+  }
+
+  get limiteEnCurso() {
+    return this.#limiteEnCurso;
   }
 
   // crearTarea(datos): TareaRecurrente si datos trae cadaDias, Tarea si no → a «Por hacer»
@@ -157,12 +163,38 @@ export class Tablero {
   // ✍️ C4 (bloque C) ────────────────────────────────────────────────────────────
   // toJSON(): { version, limiteEnCurso, columnas: { "Por hacer": [datos…], … } }
   //   JSON.stringify(tablero) lo llama solo. Sin él sale "{}": los # no se ven. Usa aDatos.
+  toJSON() {
+    const result = {
+      version: Tablero.VERSION_DATOS,
+      limiteEnCurso: this.limiteEnCurso,
+      columnas: {},
+    };
+
+    for (const column of this.columnas) {
+      const data_column = column.tareas.map((task) => aDatos(task));
+
+      result.columnas[column.nombre] = data_column;
+    }
+
+    return result;
+  }
 
   /** Lo contrario de toJSON: el MISMO tablero (columnas, ids y límite WIP). Lanza si no encaja. */
   static desdeJSON(datos) {
-    throw new Error("Sin hacer");
+    if (datos === null || datos.version !== Tablero.VERSION_DATOS) {
+      throw new Error("Tablero incorrecto o de otra versión.");
+    }
+
+    const board = new Tablero(datos.limiteEnCurso);
+
+    for (const column of board.columnas) {
+      for (const task of datos.columnas[column.nombre]) {
+        column.añadir(desdeDatos(task));
+      }
+    }
+
+    return board;
   }
 }
 
 // Comprueba con:  docker compose run --rm web npm test bloque-a
-(void aDatos, desdeDatos); // (borra esta línea cuando los uses)

@@ -5,83 +5,86 @@
 //   · get / set         → el título y la prioridad se validan SIEMPRE, también al crear
 //   · Date              → la fecha límite, leída en hora local (mira parsearFecha en fechas.js)
 //   · alCompletar()     → devuelve [] aquí; las subclases pueden cambiarlo (polimorfismo)
-import { formatear, parsearFecha, soloDia } from './fechas.js';
+import { formatear, parsearFecha, soloDia } from "./fechas.js";
 
 export class Tarea {
-	static PRIORIDADES = Object.freeze(['baja', 'media', 'alta']);
-	static #siguienteId = 1;
+  static PRIORIDADES = Object.freeze(["baja", "media", "alta"]);
+  static #siguienteId = 1;
 
-	#id;
-	#titulo;
-	#prioridad;
+  #id;
+  #titulo;
+  #prioridad;
 
-	// new Tarea("Preparar la demo", "alta", "2026-11-05") · new Tarea("Escribir el README")
-	// Los parámetros con = tienen valor por defecto: si no los pasas, prioridad "media" y sin límite.
-	// (Bloque C · ✍️ C3: aquí añadirás un cuarto parámetro, el id, para recuperar las tareas guardadas)
-	constructor(titulo, prioridad = 'media', limite = null, id = null) {
-		if (id != null) this.id = id;
-		else this.id = Tarea.#siguienteId++;
-		this.titulo = titulo; // pasa por el setter: se valida también al crear
-		this.prioridad = prioridad;
-		this.limite = limite === null ? null : parsearFecha(limite);
-		this.creada = new Date();
-	}
+  // new Tarea("Preparar la demo", "alta", "2026-11-05") · new Tarea("Escribir el README")
+  // Los parámetros con = tienen valor por defecto: si no los pasas, prioridad "media" y sin límite.
+  // (Bloque C · ✍️ C3: aquí añadirás un cuarto parámetro, el id, para recuperar las tareas guardadas)
+  constructor(titulo, prioridad = "media", limite = null, id = null) {
+    if (id !== null) this.id = id;
+    else this.id = Tarea.#siguienteId++;
+    this.titulo = titulo; // pasa por el setter: se valida también al crear
+    this.prioridad = prioridad;
+    this.limite = limite === null ? null : parsearFecha(limite);
+    this.creada = new Date();
+  }
 
-	get id() {
-		return this.#id;
-	}
+  get id() {
+    return this.#id;
+  }
 
-	set id(value) {
-		if (Number.isInteger(value) && value >= 1) {
-			this.#id = value;
-			if (value > Tarea.#siguienteId) Tarea.#siguienteId = value + 1;
-		} else {
-			throw new RangeError('Id no válido.');
-		}
-	}
+  set id(value) {
+    if (Number.isInteger(value) && value >= 1) {
+      this.#id = value;
+      if (value > Tarea.#siguienteId) Tarea.#siguienteId = value + 1;
+    } else {
+      throw new RangeError("Id no válido.");
+    }
+  }
 
-	get titulo() {
-		return this.#titulo;
-	}
+  get titulo() {
+    return this.#titulo;
+  }
 
-	set titulo(valor) {
-		if (typeof valor !== 'string' || valor.trim() === '') throw new TypeError('La tarea necesita un título');
-		if (valor.trim().length > 80) throw new RangeError('El título no puede pasar de 80 caracteres');
-		this.#titulo = valor.trim();
-	}
+  set titulo(valor) {
+    if (typeof valor !== "string" || valor.trim() === "")
+      throw new TypeError("La tarea necesita un título");
+    if (valor.trim().length > 80)
+      throw new RangeError("El título no puede pasar de 80 caracteres");
+    this.#titulo = valor.trim();
+  }
 
-	get prioridad() {
-		return this.#prioridad;
-	}
+  get prioridad() {
+    return this.#prioridad;
+  }
 
-	set prioridad(valor) {
-		if (!Tarea.PRIORIDADES.includes(valor)) throw new RangeError(`Prioridad desconocida: ${valor}`);
-		this.#prioridad = valor;
-	}
+  set prioridad(valor) {
+    if (!Tarea.PRIORIDADES.includes(valor))
+      throw new RangeError(`Prioridad desconocida: ${valor}`);
+    this.#prioridad = valor;
+  }
 
-	/** 0 = baja, 1 = media, 2 = alta (para ordenar) */
-	get peso() {
-		return Tarea.PRIORIDADES.indexOf(this.#prioridad);
-	}
+  /** 0 = baja, 1 = media, 2 = alta (para ordenar) */
+  get peso() {
+    return Tarea.PRIORIDADES.indexOf(this.#prioridad);
+  }
 
-	bajarPrioridad() {
-		if (this.peso === 0) return false; // ya es la más baja: no hace nada
-		this.#prioridad = Tarea.PRIORIDADES[this.peso - 1];
-		return true;
-	}
+  bajarPrioridad() {
+    if (this.peso === 0) return false; // ya es la más baja: no hace nada
+    this.#prioridad = Tarea.PRIORIDADES[this.peso - 1];
+    return true;
+  }
 
-	/** ¿Se ha pasado la fecha límite? `hoy` se puede pasar para probar (por defecto, hoy) */
-	estaVencida(hoy = new Date()) {
-		return this.limite !== null && this.limite < soloDia(hoy);
-	}
+  /** ¿Se ha pasado la fecha límite? `hoy` se puede pasar para probar (por defecto, hoy) */
+  estaVencida(hoy = new Date()) {
+    return this.limite !== null && this.limite < soloDia(hoy);
+  }
 
-	/** Lo que pasa al completarla. Una tarea normal no genera nada más. */
-	alCompletar() {
-		return [];
-	}
+  /** Lo que pasa al completarla. Una tarea normal no genera nada más. */
+  alCompletar() {
+    return [];
+  }
 
-	toString() {
-		const limite = this.limite ? ` · límite ${formatear(this.limite)}` : '';
-		return `#${this.id} [${this.#prioridad}] ${this.#titulo}${limite}`;
-	}
+  toString() {
+    const limite = this.limite ? ` · límite ${formatear(this.limite)}` : "";
+    return `#${this.id} [${this.#prioridad}] ${this.#titulo}${limite}`;
+  }
 }

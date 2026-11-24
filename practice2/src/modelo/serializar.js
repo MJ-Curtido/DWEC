@@ -33,7 +33,8 @@ export function desdeDatos(datos) {
       datos.prioridad,
       datos.limite,
       datos.cadaDias,
+      datos.id,
     );
   }
-  return new Tarea(datos.titulo, datos.prioridad, datos.limite);
+  return new Tarea(datos.titulo, datos.prioridad, datos.limite, datos.id);
 }
