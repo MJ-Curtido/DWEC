@@ -12,7 +12,7 @@ export async function obtenerJSON(url, fetchFn = fetch) {
 
   if (!res.ok) throw new Error(`${res.status}: ${url}`);
   if (!res.headers.get("content-type").includes("application/json"))
-    throw new Error(url);
+    throw new Error(`La respuesta no es un JSON: ${url}`);
 
   return res.json();
 }
