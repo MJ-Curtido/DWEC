@@ -29,13 +29,22 @@ export class TareaConGastos extends Tarea {
 		this.#gastos = value;
 	}
 
+	comprobarPaso(desde, hasta) {
+		const gastado = this.#gastos.reduce((suma, g) => suma + g.importe, 0);
+		if (hasta === 'Hecho' && gastado > this.#presupuesto) throw new PresupuestoSuperadoError(gastado, this.#presupuesto);
+	}
+
+	comprobarGastos(importe = 0) {
+		const total = this.#gastos.reduce((acc, gasto) => (acc += gasto.importe), 0);
+		total += importe;
+		if (total > this.presupuesto) throw new PresupuestoSuperadoError(importe, this.presupuesto);
+	}
+
 	gastar(concepto, importe) {
 		if (concepto && typeof concepto !== 'string') throw new RangeError('Concepto inválido.');
 		if (this.#gastos.filter((gasto) => gasto.concepto === concepto).length > 0) throw new RangeError('Concepto ya existente.');
 		if (Number.isInteger(importe) && importe > 0) throw new RangeError('Importe inválido.');
-		const total = this.#gastos.reduce((acc, gasto) => (acc += gasto.importe), 0);
-		total += importe;
-		if (total > this.presupuesto) throw new PresupuestoSuperadoError(importe, this.presupuesto);
+		this.comprobarGastos(importe);
 
 		this.#gastos.push({ concepto, importe });
 	}
