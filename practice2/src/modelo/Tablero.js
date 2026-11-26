@@ -120,6 +120,8 @@ export class Tablero {
 				limiteWip: columnTo.limiteWip,
 			});
 
+		task.comprobarPaso(columnTo.nombre);
+
 		return columnTo.añadir(columnFrom.quitar(id));
 	}
 
